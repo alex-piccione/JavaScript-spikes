@@ -1,13 +1,27 @@
 <html>
-
-
 <head>
-	<title>>ngularjS $watch</title>
+	<title>AngularjS $watch</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 </head>
-<body>
-
-A
+<body ng-app="spike">
+    <div ng-controller="mainController">
+		Message: {{message}}
+		<div>
+		</div>
+	</div>
+	
+	
+	<script>
+	var app = angular.module("spike", []);
+	
+	app.controller("mainController", [
+		"$scope", 
+		function($scope){
+			$scope.message = "Hello!";
+		}
+	]);
+	
+	</script>
 </body>
 </html>
