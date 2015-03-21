@@ -15,7 +15,7 @@
 	</p>
 
     <div ng-controller="mainController">
-		{{message}}
+		Message: {{message}}
 		<div>
 		</div>
 	</div>
@@ -26,12 +26,16 @@
 	var app = angular.module("spike", []);
 	
 	app.controller("mainController",
-		function($scope, $timeout){
-			$scope.message = "See the JavaScript console!";
+		function($scope, $timeout) {
+			$scope.message = "start message";
 
-			$scope.$watch(function () {
-				console.log("$digest");  // called 2 times
+			$scope.$watch("message", function(newValue, oldValue) {
+				console.log("message, old: " + oldValue + ", new: " + newValue);
 			});
+
+			$timeout(function() {
+			    $scope.message = "new message";
+		    }, 2 * 1000);
 		}
 	);
 	
