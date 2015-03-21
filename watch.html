@@ -8,15 +8,14 @@
 <body ng-app="spike">
 
 
-	<h1>AngularJS $watch function</h1>
+	<h1>AngularJS $watch functions</h1>
 
 	<p>
 		Inspired by this <a href="http://www.toptal.com/angular-js/videos/javascript-video-tutorial-using-watch-watchgroup-and-watchcollection-functions-in-angularjs/#remote-developer-job">video tutorial</a>.
 	</p>
 
     <div ng-controller="mainController">
-		Message 1: {{message1}}
-        Message 2: {{message2}}
+		Colors: {{colors}}
 		<div>
 		</div>
 	</div>
@@ -28,23 +27,17 @@
 	
 	app.controller("mainController",
 		function($scope, $timeout) {
-		    $scope.message1 = "first message";
-		    $scope.message2 = "second message";
-
-			$scope.$watchGroup(["message1", "message2"], function(newValues, oldValues) {
-			    console.log("old values: " + oldValues);
-			    console.log("new values: " + newValues);
-			    // newValues and oldValues are of type "objectMessage" and are "array" of the values,
-			    // you can use newValues[0]
+			$scope.colors = ["red", "green", "blue"];
+		    
+			$scope.$watchCollection("colors", function (newList, oldList) {
+				console.log("old list: " + oldList);
+			    console.log("new list: " + newList);
 			});
 
 			$timeout(function() {
-			    $scope.message1 = "new message 1";
+				$scope.colors.push("yellow");
 			}, 2 * 1000);
 
-			$timeout(function () {
-			    $scope.message2 = "new message 2";
-			}, 4 * 1000);
 		}
 	);
 	
