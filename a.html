@@ -15,7 +15,8 @@
 	</p>
 
     <div ng-controller="mainController">
-		Message: {{message}}
+		Message 1: {{message1}}
+        Message 2: {{message2}}
 		<div>
 		</div>
 	</div>
@@ -27,15 +28,23 @@
 	
 	app.controller("mainController",
 		function($scope, $timeout) {
-			$scope.message = "start message";
+		    $scope.message1 = "first message";
+		    $scope.message2 = "second message";
 
-			$scope.$watch("message", function(newValue, oldValue) {
-				console.log("message, old: " + oldValue + ", new: " + newValue);
+			$scope.$watchGroup(["message1", "message2"], function(newValues, oldValues) {
+			    console.log("old values: " + oldValues);
+			    console.log("new values: " + newValues);
+			    // newValues and oldValues are of type "objectMessage" and are "array" of the values,
+			    // you can use newValues[0]
 			});
 
 			$timeout(function() {
-			    $scope.message = "new message";
-		    }, 2 * 1000);
+			    $scope.message1 = "new message 1";
+			}, 2 * 1000);
+
+			$timeout(function () {
+			    $scope.message2 = "new message 2";
+			}, 4 * 1000);
 		}
 	);
 	
