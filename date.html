@@ -42,7 +42,16 @@
 			</div>
 
 		</div>
-	</div>	
+		
+		<div>
+		<h2>Problems</h2>
+		1. When date is set in script (controller) it appears in the control but the day is not selected in the calendar.
+		If you open and close the calendar without selecting a date, the date in the control is removed.
+		</div>
+		
+	</div>
+
+	
 
 	<script>
 		"use strict";
@@ -86,6 +95,11 @@
 					$scope.data = {};
 					$scope.data.date = moment().format("L");
 				};
+				
+				// initialize
+				$scope.data.date = moment().format("L");
+				// update MUST be called manually!!
+				$("input.datepicker").datepicker("update");				
 
 			}
 		);
