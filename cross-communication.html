@@ -8,20 +8,23 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
 <body ng-app="spike">
+	<div class="container">
 
-	<div ng-controller="cartWidgetController">
-		<div ng-controller="itemsController" class="container">		
-
+		<div class="well">
 			<h1>Cross communication spike</h1>
 			<p>Different techniques about communicating across different components (i.e. directives and controllers)</p>
 
-			<h2>Communicating with inherited scope</h2>
+			<h2>Communicating by event</h2>
+		</div>
 
+		<div ng-controller="cartWidgetController">
 			<div class="well">
 				<span class="badge pull-right">Items: {{totalItems}}</span>
 				Demo shopping cart
 			</div>
+		</div>
 
+		<div ng-controller="itemsController">
 			<div class="well">
 				Items:
 				<ul>
@@ -30,11 +33,8 @@
 						<span class="btn btn-small btn-info" ng-click="addToCart(item)">Add to cart</span>
 					</li>
 				</ul>
-
 				<div>{{cartItems}} items in cart</div>
-
 			</div>
-
 		</div>
 	</div>
 
@@ -43,20 +43,20 @@
 
 		var app = angular.module("spike", []);
 
-		app.controller("itemsController", function ($scope) {
+		app.controller("itemsController", function ($scope, $rootScope) {
 			$scope.cartItems = 0;
 			$scope.items = ["Laptop", "Desktop", "XBox", "Tablet"];
-			$scope.addToCart = function (item) {
-				$scope.addItem();
+			$scope.addToCart = function (item) {				
 				$scope.cartItems++;
+				$rootScope.$broadcast("item:added", item);
 			};
 		});
 
 		app.controller("cartWidgetController", function($scope) {
 			$scope.totalItems = 0;
-			$scope.addItem = function() {
+			$scope.$on("item:added", function(event, item) {
 				$scope.totalItems++;
-			};
+			});
 		});
 
 
