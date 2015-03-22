@@ -14,7 +14,7 @@
 			<h1>Cross communication spike</h1>
 			<p>Different techniques about communicating across different components (i.e. directives and controllers)</p>
 
-			<h2>Communicating by event</h2>
+			<h2>Communicating with Services</h2>
 		</div>
 
 		<div ng-controller="cartWidgetController">
@@ -43,19 +43,41 @@
 
 		var app = angular.module("spike", []);
 
-		app.controller("itemsController", function ($scope, $rootScope) {
-			$scope.cartItems = 0;
-			$scope.items = ["Laptop", "Desktop", "XBox", "Tablet"];
-			$scope.addToCart = function (item) {				
-				$scope.cartItems++;
-				$rootScope.$broadcast("item:added", item);
+		app.factory("cartService", function() {
+			var callbacks = [];
+			var items = 0;
+			var addItemToCart = function(item) {
+				items++;
+				var i = 0;
+				for (var i = 0; i < callbacks.length; i++) {
+					callbacks[i](items);
+				}
+			};
+			var onItemsAdded = function (callback) {
+				callbacks.push(callback);
+			};
+
+			return {
+				onItemsAdded: onItemsAdded,
+				addItemToCart: addItemToCart,
 			};
 		});
 
-		app.controller("cartWidgetController", function($scope) {
+		app.controller("itemsController", function ($scope, cartService) {
+			$scope.cartItems = 0;
+			$scope.items = ["Laptop", "Desktop", "XBox", "Tablet"];
+			$scope.addToCart = cartService.addItemToCart;
+
+			// subscribe to items added callback
+			cartService.onItemsAdded(function (items) {
+				$scope.cartItems = items;
+			});
+		});
+
+		app.controller("cartWidgetController", function($scope, cartService) {
 			$scope.totalItems = 0;
-			$scope.$on("item:added", function(event, item) {
-				$scope.totalItems++;
+			cartService.onItemsAdded(function (items) {
+				$scope.totalItems = items;
 			});
 		});
 
