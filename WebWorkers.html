@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>XXX spike</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+<body ng-app="spike">
+	<div id="spike-header">
+		<h1>XXX spike</h1>
+		<p>[purpose of spike]</p>
+	</div>
+
+	<div ng-controller="spikeController">
+
+	</div>
+	
+	<div class="container">
+		<div ng-controller="spikeController">
+			<div class="well">
+				<form role="form" class="form-horizontal" style="width:400px">
+					<div class="form-group">
+						<label class="control-label">Fruits</label>
+						<select ng-options="fruit.name as fruit.name for fruit in fruits" ng-model="purchase.shop" class="form-control"></select>
+					</div>
+					<div>
+						<span class="btn btn-default" ng-click="resetForm()">Reset</span>
+						<span class="btn btn-primary" ng-click="sendForm()">Send</span>
+					</div>
+				</form>
+				<br />
+				<div ng-show="result">
+					Result: {{result}}
+				</div>
+			</div>
+
+		</div>
+	</div>	
+
+	<script>
+		"use strict";
+
+		var app = angular.module("spike", []);
+
+		app.controller("spikeController",
+			function ($scope) {
+				$scope.test = "ok";
+			}
+		);
+		
+		app.controller("spikeController",
+			function ($scope) {
+
+				$scope.fruits = [
+					{id:1, name:"Apple"},
+					{id:2, name:"Orange"},
+					{id:3, name:"Cucumber"},
+					{id:4, name:"Banana"}
+				];
+				
+				$scope.data = {};
+				$scope.result = null;
+
+				var sentCount = 0;
+				$scope.sendForm = function () {
+					sentCount++;
+					$scope.result = "(" + sentCount + ") " + ($scope.data.fruit || "(none)");
+				}
+
+				$scope.resetForm = function () {
+					$scope.data = {};
+					$scope.result = null;
+				};
+
+			}
+		);
+
+	</script>
+	
+	<style>
+		#spike-header {
+			position: relative;
+			padding: 10px 5px;
+			color: #4e0000;
+			text-align: center;
+			text-shadow: 0 1px 0 rgba(20,20,20,.3);
+			background-color: #ff9000;
+			background-image: linear-gradient(to bottom, #ff9000 0, #ffd800 100%);
+			margin-bottom:10px;	
+		}
+		#spike-header h1 {font-weight:bold}
+		#spike-header h2 {font-weight:bold}
+	</style>
+</body>
+</html>
