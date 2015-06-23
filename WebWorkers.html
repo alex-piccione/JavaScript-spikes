@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>XXX spike</title>
+	<title>Web Workers spike</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
@@ -9,8 +9,8 @@
 </head>
 <body ng-app="spike">
 	<div id="spike-header">
-		<h1>XXX spike</h1>
-		<p>[purpose of spike]</p>
+		<h1>Web Workers spike</h1>
+		<p>Test Web Workers</p>
 	</div>
 
 	<div ng-controller="spikeController">
@@ -20,6 +20,12 @@
 	<div class="container">
 		<div ng-controller="spikeController">
 			<div class="well">
+			
+			Specifications: <a href="https://html.spec.whatwg.org/multipage/workers.html">https://html.spec.whatwg.org/multipage/workers.html</a>
+			
+			<div>The highest prime number discovered so fa is: <output id="result"></output>
+			</div>
+			
 				<form role="form" class="form-horizontal" style="width:400px">
 					<div class="form-group">
 						<label class="control-label">Fruits</label>
@@ -42,38 +48,19 @@
 	<script>
 		"use strict";
 
-		var app = angular.module("spike", []);
-
-		app.controller("spikeController",
-			function ($scope) {
-				$scope.test = "ok";
-			}
-		);
+		document.getElementById("result").textContent = "...";
+			
+		var worker = new Worker("Worker.js");		
+		worker.onmessage = function(event) {
+			document.getElementById("result").textContent = event.data;
+		};
 		
+		var app = angular.module("spike", []);
+	
 		app.controller("spikeController",
 			function ($scope) {
 
-				$scope.fruits = [
-					{id:1, name:"Apple"},
-					{id:2, name:"Orange"},
-					{id:3, name:"Cucumber"},
-					{id:4, name:"Banana"}
-				];
 				
-				$scope.data = {};
-				$scope.result = null;
-
-				var sentCount = 0;
-				$scope.sendForm = function () {
-					sentCount++;
-					$scope.result = "(" + sentCount + ") " + ($scope.data.fruit || "(none)");
-				}
-
-				$scope.resetForm = function () {
-					$scope.data = {};
-					$scope.result = null;
-				};
-
 			}
 		);
 
