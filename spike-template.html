@@ -39,7 +39,7 @@
 				<form role="form" class="form-horizontal" style="width:400px">
 					<div class="form-group">
 						<label class="control-label">Amount</label>
-						<amount-field id="amount" >
+						<amount-field id="amount" placeholder="'0.00'">
 					</div> 
 					<div>
 						<span class="btn btn-default" ng-click="resetForm()">Reset</span>
@@ -80,6 +80,8 @@
 				$scope.result = null;
 				$scope.amount;
 
+				//$scope.placeholder = "aaa"; // "0.00";
+				
 				var sentCount = 0;
 				$scope.sendForm = function () {
 					sentCount++;
