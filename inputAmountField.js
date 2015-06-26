@@ -1,12 +1,13 @@
-app.directive("amountField", function(){
+app.directive("spikeAmountField", function(){
 	var directive = {
 		restrict: "E",
 		//templateUrl: "inputAmountFieldTemplate.html"
-		template: '<input type="text" class="form-input" placeholder="{{placeholder}}">'
+		template: '<input type="text" class="form-input" placeholder="{{placeholder}}" value="{{amount}}">'
 	};
 	
 	directive.scope = {
-		placeholder: "=placeholder"		
+		amount: "=amount",
+		placeholder: "=placeholder"
 	};
 	
 	return directive;
