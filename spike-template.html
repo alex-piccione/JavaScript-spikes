@@ -34,9 +34,17 @@
 		<div ng-controller="spikeController">
 			<div class="well">
 				<form role="form" class="form-horizontal" style="width:400px">
+					<div class="form-group">
+						<label class="control-label">culture</label>
+						<select ng-options="locale.id as locale.name for locale in locales" ng-model="selectedLocaleId" ></select>
+					</div>
+					<div>
+						<div>Locale: {{locale.id}} / {{locale.name}} </div>
+						<div>Thousand separator: {{locale.decimalSeparator}}</div>
+					</div>
 					<div class="form-group">	
 						<label class="control-label">Amount</label>
-						<spike:amount-field placeholder="'0.00'" amount="amount" ></spike:amount-field>
+						<spike:amount-field placeholder="'0,00'" decimal-separator="','" thousand-separator="'.'" _amount="amount" amount="666" ></spike:amount-field>
 					</div>
 					<div class="form-group">
 						<label>$scope.amount</label>
@@ -54,7 +62,7 @@
 					</div>
 				</form>
 				
-				<div>step 1: input with value binded to controller</div>
+				<div>step 1: input with value binded to controller: ok</div>
 				<div>step 2: input with configurable parameters</div>
 				<div>step 3: evaluation of field after some seconds or on exit</div>		
 				<div>step 4: hidden field with original input, used for fill the input when selected a successive time</div>
@@ -72,7 +80,13 @@
 	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
-	
+	<script src="i18n/angular-locale_en-us.js"></script>
+	<script>
+	var locale = JSON.parse(localStorage.getItem('locale'));
+	if(locale) {
+		document.write('<script src="i18n/angular-locale_' + locale + '"></scr' + 'ipt>');
+		}
+	</script>
 	<script>
 		"use strict";
 
@@ -80,12 +94,49 @@
 
 		// set AngularJS locale...
 		
-		app.controller("spikeController",
-			function ($scope) {
+		app.controller("spikeController", 
+			function ($scope, $locale) {
 				$scope.result = null;
 				$scope.amount = "345";
 				$scope.valueToSet = 123;
-				$scope.qq = "qqqqq";
+				$scope.locales = [
+					{id: "en", name: "English"},
+					{id: "en-us", name: "English (Unites States)"},
+					{id: "en-gb", name: "English (Great Britain)"},
+					{id: "it", name: "italiana"},
+					{id: "it-it", name: "italiana (Italia)"},
+					{id: "es", name: "Espanol"},
+					{id: "es-es", name: "Espanol (Espana)"}
+				];
+				
+				$scope.getLocale = function(id) {
+					for(var i=0; i<$scope.locales.length; ++i)
+						if($scope.locales[i].id == id) return $scope.locales[i];
+					return null;							
+				};
+				
+				$scope.$watch(function(scope) {return scope.selectedLocaleId}, function(newValue, oldValue) {
+					
+					if(newValue !== oldValue)
+					{
+						$scope.locale = $scope.getLocale(newValue);
+						$scope.locale.decimalSeparator = $locale.NUMBER_FORMATS.DECIMAL_SEP;
+					}
+						
+				});		
+				
+				$scope.init = function(){
+				
+					$scope.locale = $scope.getLocale("en-us"); // default, like in the HTML script inclusion	
+				
+					var selectedLocale = JSON.parse(localStorage.getItem('locale'));
+					$scope.result = "selectedLocale: " + selectedLocale;
+					if(selectedLocale)
+						$scope.locale = $scope.getLocale(selectedLocale);
+				}
+				
+				$scope.init();
+				
 				
 				var sentCount = 0;
 				$scope.sendForm = function () {
