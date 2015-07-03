@@ -2,8 +2,8 @@ app.directive("spikeAmountField", function(){
 	var directive = {
 		restrict: "E",
 		//templateUrl: "inputAmountFieldTemplate.html"
-		template: '<input id="{{id}}" type="text" class="form-input" placeholder="{{placeholder}}" __value="{{amount}}" ng-model="amount" >'
-			+ ' decimal separator: {{decimalSeparator}}'		
+		template: '<input type="text" class="form-input" placeholder="{{placeholder}}" ng-model="amount" >'
+			+ ' decimal separator: {{decimalSeparator}}'	
 	};
 	
 	directive.scope = {
@@ -13,23 +13,19 @@ app.directive("spikeAmountField", function(){
 	};
 	
 	directive.link = function(scope, element, attr){
-		scope.id = "spikeAmountField_" + Math.floor(Math.random()*1000000);
-		//console.log(scope.id);
-
-		//var field = element.find("#" + scope.id);
+		//scope.id = "spikeAmountField_" + Math.floor(Math.random()*1000000);
+		
 		var isEvaluating = null;
-		scope.$watch( function(scope) {return scope.amount}, function(newValue, oldValue){
+		scope.$watch( function(scope_) {return scope_.amount}, function(newValue, oldValue){
 			if(newValue !== oldValue)
 			{
 				console.log("newValue > " + newValue);
 				
-				isEvaluating && clearTimeout(isEvaluating); // stop evaluating
-				
+				isEvaluating && clearTimeout(isEvaluating); // stop evaluating				
 				
 				// normalize to JavaScript (en) locale
-				var normalizedText = (newValue+ "").replace(scope.decimalSeparator, ".");
-				//console.log("normalized: " + normalizedText);
-				// contains somethin different from numbers or decimal separator?
+				var normalizedText = (newValue+"").replace(scope.decimalSeparator, ".");
+				// contains something different from digits or decimal separator?
 				if (normalizedText.match(/[^\d.]/g))
 				{	
 					isEvaluating = setTimeout( function(){
@@ -41,14 +37,13 @@ app.directive("spikeAmountField", function(){
 							valueResult = eval(normalizedText); 
 							console.log("amount = " + valueResult);
 							scope.amount = valueResult;	
+							scope.$apply(); // or use $timeout()
 						}
 						catch(error)
-						{
-							//valueResult = 		normalizedText + " (cannot evaluate)";		
+						{							
 							console.log("cannot evaluate \"" + normalizedText + "\".");
 						}
 					}, 1000*1);	
-					//scope.amount = 
 				}
 				
 			}
