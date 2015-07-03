@@ -45,11 +45,11 @@
 					</div>
 					<div class="form-group">	
 						<label class="control-label">Amount</label>
-						<spike:amount-field placeholder="'0,00'" decimal-separator="','" thousand-separator="'.'" _amount="amount" amount="666" ></spike:amount-field>
+						<spike:amount-field placeholder="'0,00'" decimal-separator="','" thousand-separator="'.'" amount="recordAmount" ></spike:amount-field>
 					</div>
 					<div class="form-group">
 						<label>$scope.amount</label>
-						<input type="text" readonly="readonly" ng-model="amount" />
+						<input type="text" readonly="readonly" ng-model="recordAmount" />
 					</div>
 					<div class="form-group">
 					
@@ -98,7 +98,7 @@
 		app.controller("spikeController", 
 			function ($scope, $locale) {
 				$scope.result = null;
-				$scope.amount = "345";
+				$scope.recordAmount = "345";
 				$scope.valueToSet = 123;
 				$scope.locales = [
 					{id: "en", name: "English"},
@@ -142,17 +142,17 @@
 				var sentCount = 0;
 				$scope.sendForm = function () {
 					sentCount++;
-					$scope.result = $scope.amount;
+					$scope.result = $scope.recordAmount;
 					//$scope.result = 
 				};
 
 				$scope.resetForm = function () {
-					$scope.amount = 0;
+					$scope.recordAmount = 0;
 					$scope.result = null;
 				};
 				
 				$scope.setValue = function(){
-					$scope.amount = $scope.valueToSet;
+					$scope.recordAmount = $scope.valueToSet;
 				};
 			}
 		);
