@@ -16,13 +16,14 @@
 		#spike-header h1 {font-weight:bold}
 		#spike-header h2 {font-weight:bold}
 		*[readonly] { background-color: #eee; border:1px solid #ccc; padding:2px 1px}
+		.evidence { font-size: 16pt; font-weight: bold}
 	</style>
 </head>
 <body ng-app="spike">
 	<div id="spike-header">
 		<h1>Angular Amount Input Field Spike</h1>
 		<p>
-		Create aAngularJS directive to fill an input field with amount value.
+		Create an AngularJS directive to fill an input field with amount value.
 		<br>It must be localizable.
 		<br>It must be able to make some simple calculation.
 		<br>It must not accept thousand separator character.
@@ -35,13 +36,13 @@
 			<div class="well">
 				<form role="form" class="form-horizontal" style="width:400px">
 					<div class="form-group">
-						<label class="control-label">culture</label>
+						<label class="control-label">Culture:</label>
 						<select ng-options="locale.id as locale.name for locale in locales" ng-model="selectedLocaleId" ></select>
 					</div>
 					<div>
 						<div>Locale: {{locale.id}} / {{locale.name}} </div>
-						<div>Decimal separator: <input type="text" style="width:20px" readonly="readonly" ng-model="locale.decimalSeparator"></div>
-						<div>Thousand separator: {{locale.decimalSeparator}}</div>
+						<div>Decimal separator: <span class="evidence">{{locale.decimalSeparator}}</span> <input ng-hide="true" type="text" style="width:20px" readonly="readonly" ng-model="locale.decimalSeparator"></div>
+						<div>Thousand separator: <span class="evidence">{{locale.thousandSeparator}}</span></div>
 					</div>
 					<div class="form-group">	
 						<label class="control-label">Amount 1</label>

@@ -1,3 +1,6 @@
+
+var app = app || angular.module("spike", []);
+
 app.directive("spikeAmountField", function(){
 	var directive = {
 		restrict: "E",
