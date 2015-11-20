@@ -1,6 +1,9 @@
-var Calculator = function () {
+function Calculator() {
+
+	return {
 	
-	this.sum = function(a, b){
-		return a + b;
-	}	
+		sum: function(a, b){
+			return a + b;
+		}	
+	}
 }
