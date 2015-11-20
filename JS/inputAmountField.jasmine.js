@@ -21,8 +21,8 @@ describe("inputAmountField directive", function() {
     });
   });
 	
-  see here: http://www.benlesh.com/2013/06/angular-js-unit-testing-directives.html
-  https://www.google.it/webhp?client=aff-maxthon-maxthon4&channel=t38&gws_rd=cr,ssl&ei=izAYVqOWOeHqyQO3rb2oBA#channel=t38&q=jasmine+test+element+is+found
+  //see here: http://www.benlesh.com/2013/06/angular-js-unit-testing-directives.html
+  //https://www.google.it/webhp?client=aff-maxthon-maxthon4&channel=t38&gws_rd=cr,ssl&ei=izAYVqOWOeHqyQO3rb2oBA#channel=t38&q=jasmine+test+element+is+found
   
 	describe("Template", function(){
 
