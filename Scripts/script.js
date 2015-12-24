@@ -13,8 +13,12 @@ var datasource_1 = [{
 
 
 var datasource_2 = [
-    {"team": "d", "cycleTime": 1, "effort": 1, "count": 1, "priority": "low"},
-    {"team": "k", "cycleTime": 4, "effort": 6, "count": 8, "priority": "medium"}
+    {"team": "A", "cycleTime": 1, "effort": 1, "count": 1, "priority": "low"},
+    {"team": "B", "cycleTime": 2, "effort": 2, "count": 3, "priority": "medium"},
+    {"team": "B", "cycleTime": 3, "effort": 4, "count": 2, "priority": "low"},
+    {"team": "C", "cycleTime": 3, "effort": 6, "count": 8, "priority": "medium"},
+    {"team": "D", "cycleTime": 2, "effort": 4, "count": 4, "priority": "low"},
+    {"team": "D", "cycleTime": 3, "effort": 3, "count": 2, "priority": "low"}
 ];
 
 // charts
@@ -34,7 +38,7 @@ var chart_2 = new tauCharts.Chart({
         y: {label: "Effort in points"},     // custom label for Y axis
         padding: {b:40, l:40, t:10, r:10 }, // chart paddin
         colors: {                           // colors
-            brewer: ["color-red", "color-green", "color-blue"] 
+            brewer: ["color-red", "color-green", "color-blu"] 
         }
     },
     data: datasource_2,
