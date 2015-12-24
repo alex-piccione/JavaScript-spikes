@@ -1,4 +1,4 @@
-var data = 
+var tvSeries = 
 
 [
         {"title":"Mr.Robot", "seasons":[2015], "rating":5},
