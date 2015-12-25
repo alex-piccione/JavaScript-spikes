@@ -17,14 +17,28 @@ chart_registry_years.renderTo('#chart_registry_years');
 
 var chart_registry_months = new tauCharts.Chart({
     data: months, //registry.months,
-    type: "line",
+    type: "bar",
     x: "period",
-    y: "amount",
+    y: "Amount",
     color: "type",
+    colors: {brewer:["color-green", "color-red"]},
     plugins: [
         tauCharts.api.plugins.get('legend')(),
-        tauCharts.api.plugins.get('tooltip')()
+        tauCharts.api.plugins.get('tooltip')({fields:["Amount"]})
     ]
 });
 
 chart_registry_months.renderTo("#chart_registry_months");
+
+var chart_registry_results = new tauCharts.Chart({
+    data: results,
+    type: "line",
+    x: "Period",
+    y: "Amount",
+    color: "type",
+    plugins: [
+        tauCharts.api.plugins.get('tooltip')({fields:["Amount"]})
+    ]
+});
+
+chart_registry_results.renderTo("#chart_registry_results");

@@ -50,14 +50,19 @@ var registry = {
     ]
 };
 
-
 var months = [];
+var results = [];
 
 //$(registry.months).eachs(function(i,e){
+var progressiveAmount = 0;
 for(var i in registry.months) {
     var e = registry.months[i];
-    months.push( {period:e.period, type:"income", amount:e.income} );
-    months.push( {period:e.period, type:"outcome", amount:e.outcome} );
-    months.push( {period:e.period, type:"result", amount:e.income-e.outcome} );
-    console.log(e);
+    var result = e.income-e.outcome;
+    progressiveAmount = progressiveAmount + result;
+    //results.push({Period:e.period, Amount: result, Progressive: progressiveAmount});
+    results.push({Period:e.period, type:"month", Amount:result});
+    results.push({Period:e.period, type:"progressive", Amount:progressiveAmount});
+    months.push( {period:e.period, type:"income", Amount:e.income} );
+    months.push( {period:e.period, type:"outcome", Amount:-e.outcome} );
+    months.push( {period:e.period, type:"result", Amount:result} );
 };
