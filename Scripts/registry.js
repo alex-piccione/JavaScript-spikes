@@ -1,18 +1,23 @@
 // Years
 var chart_registry_years = new tauCharts.Chart({
-    data: registry.years,
+    data: registry.years.map(function(x) {
+        x.Amount = x.amount;
+        x.Type = x.type[0].toUpperCase() + x.type.substr(1); // first letter uppercase
+        return x;
+    }),
     type: 'bar',
     x: 'year',
-    y: 'amount',
+    y: 'Amount',
     size: null,
-    color: 'type', // there will be two lines with different colors on the chart
+    color: 'Type', // there will be two lines with different colors on the chart
     guide: {
-        color: {brewer:{income:"chart-income", outcome:"chart-outcome", result:"chart-result"}}
+        color: {brewer:{Income:"chart-income", Outcome:"chart-outcome", Result:"chart-result"}},
+        y: {label: "Income, Outcome and Result"}
     },
     plugins: [
         tauCharts.api.plugins.get('legend')(),
         //tauCharts.api.plugins.get('quick-filter')(),
-        tauCharts.api.plugins.get('tooltip')({fields:["amount"]})
+        tauCharts.api.plugins.get('tooltip')({fields:["Amount"]})
     ]
 });
 
@@ -42,13 +47,15 @@ var chart_registry_results = new tauCharts.Chart({
     y: "Amount",
     color: "type",
     guide: {
+        padding:0,
+        showGridLines: "y",
         color: {
-            brewer: {income: "css-green", outcome:"color-red"}
+            brewer: {month:"chart-result", progressive:"chart-progressive"}
         }
     },
     plugins: [
         tauCharts.api.plugins.get('tooltip')({fields:["Amount"]}),
-        tauCharts.api.plugins.get('legend')( {labels:["Month", "Amount"]}),
+        tauCharts.api.plugins.get('legend')({labels:["Month", "Amount"]}),
     ]
 });
 
