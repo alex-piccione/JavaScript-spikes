@@ -3,7 +3,11 @@
 <head>
     
     <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/taucharts/latest/tauCharts.min.css">
-    
+    <style>
+        .chart-income {fill:#66da26; background:#66da26} /*limegreen*/
+        .chart-outcome {fill: #df2b59; background:#df2b59}
+        .chart-result {fill: #6fa1d9; background:#6fa1d9}
+    </style>
 </head>
 <body>
     <h1>Tauchart spike</h1>
@@ -20,7 +24,10 @@
     <br />
     
     <div>
-        <span style="width:50%; float:left" id="chart_registry_years"></span>
+        <span style="width:50%; float:left">
+            <h2>Years</h2>
+            <div id="chart_registry_years" ></div>            
+        </span>
         <span style="width:50%; float:left" id="chart_registry_results"></span>
     </div>
     <div id="chart_registry_months"></span>
