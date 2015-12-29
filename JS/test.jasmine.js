@@ -1,10 +1,16 @@
 
 // https://docs.angularjs.org/guide/unit-testing
 
-var _debug = {};
 
 
-describe("inputAmountField", function(){
+// remove check of file
+var describe = describe || null;
+var it = it || null;
+var beforeEach = beforeEach || null;
+var _describe = _describe || null;
+var _it = _it || null;
+
+describe("Given inputAmountField directive", function(){
 	
 	var $compile;
 	var $rootScope;    
@@ -12,7 +18,6 @@ describe("inputAmountField", function(){
        
 	//load the app that contains the directive
 	var app = angular.module("test", [])
-    _debug.app = app;
     
     app.directive('inputAmountField', function() {
         return {
@@ -22,18 +27,15 @@ describe("inputAmountField", function(){
             template: '<input>'
         };
     });
-    
-    
-   
-	//beforeEach(angular.module("test")); 
+           
+
     beforeEach(function(){
-        //angular.module("test");  // this get error: ...
-        module("test");    
+
+        module("test");    // this is angular.mock.module(), not angular.module() !!!
         
         //html = "<spikeAmountField>";
 		html = "<div>Amount: <inputAmountField></div>";      
-    });	
-		
+    });			
     
 	beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_){
 		// the injector unwraps the underscore (_) from around the parameter names when matching
@@ -43,22 +45,19 @@ describe("inputAmountField", function(){
 	
 	}));
 	    
+    describe("When Angular compile", function(){
+        it("Then input is rendered", function(){
+            var element = $compile(html)($rootScope);
 
-	
-	it("render without errors", function(){        
-      
-		var element = $compile(html)($rootScope);
-
-		$rootScope.$digest();
-
+            $rootScope.$digest();
         
-		var result = element.text();
-		result = element.html();
-		
-		console.log(result);
-		
-		expect(result).toContain("<input");
-	});
-	
+            var result = element.text();
+            result = element.html();            
+           
+            expect(result).toContain("<input");
+            
+        });
+        
+    });  
 	
 });
