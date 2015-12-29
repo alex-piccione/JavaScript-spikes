@@ -61,3 +61,59 @@ describe("Given inputAmountField directive", function(){
     });  
 	
 });
+
+
+
+
+function Given(given) {
+    
+    var when = function(when){
+        
+        describe("When " + when, function(){});
+    };
+    
+    var then = function(then, expect) {
+        
+        it("Then " + then, expect);         
+
+    };
+    
+    describe("Given " + given, function(){});
+    
+    return {
+        When: when,
+        Then: then
+    }
+    /*
+        var fn =  {
+            Then: then
+        };
+    describe("Given " + given, fn);
+    return fn;    
+    */
+};
+
+function Then(then) {
+    it("Then " + then, function(fn){});
+    return fn;    
+};
+
+Given("A number")
+.When("it is odd")
+.Then("it is true", function(){
+    expect(1).toEqual(1);
+    
+});
+
+
+/*
+Given("inputAmountField directive")
+.Then("it is true");
+
+
+var actions = {};
+
+function Given(name){    
+    
+}
+*/
