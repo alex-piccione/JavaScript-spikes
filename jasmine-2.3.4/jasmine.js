@@ -39,7 +39,7 @@ var getJasmineRequireObj = (function (jasmineGlobal) {
 
   getJasmineRequire().core = function(jRequire) {
     var j$ = {};
-
+    
     jRequire.base(j$, jasmineGlobal);
     j$.util = jRequire.util();
     j$.errors = jRequire.errors();
