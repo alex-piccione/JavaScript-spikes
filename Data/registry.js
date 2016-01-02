@@ -11,14 +11,14 @@ var registry = {
         {year: "2015", type:"result", amount:1729.22000} 
     ],
     months: [
-        {year:2013, month:1, period:"2013 Jan", income:1514.45000, outcome:303.50000, result:0},
-        {year:2013, month:2, period:"2013 Feb", income:1277.00000, outcome:901.76000, result:0},
-        {year:2013, month:3, period:"2013 Mar", income:1388.00000, outcome:423.39000, result:0},
-        {year:2013, month:4, period:"2013 Apr", income:1267.14000, outcome:1958.47000, esult:0},
-        {year:2013, month:5, period:"2013 May", income:1298.01000, outcome:1849.35000, result:0},
-        {year:2013, month:6, period:"2013 Jun", income:1254.00000, outcome:794.63000, result:0},
-        {year:2013, month:7, period:"2013 Jul", income:3442.49000, outcome:1933.43000, result:0},
-        {year:2013, month:8, period:"2013 Aug", income:9369.19000, outcome:700.30000, result:0},
+        {year:2013, month:1, period:"2013 Jan", income:1514.45000, outcome:303.50000 },
+        {year:2013, month:2, period:"2013 Feb", income:1277.00000, outcome:901.76000 },
+        {year:2013, month:3, period:"2013 Mar", income:1388.00000, outcome:423.39000 },
+        {year:2013, month:4, period:"2013 Apr", income:1267.14000, outcome:1958.47000},
+        {year:2013, month:5, period:"2013 May", income:1298.01000, outcome:1849.35000},
+        {year:2013, month:6, period:"2013 Jun", income:1254.00000, outcome:794.63000},
+        {year:2013, month:7, period:"2013 Jul", income:3442.49000, outcome:1933.43000},
+        {year:2013, month:8, period:"2013 Aug", income:9369.19000, outcome:700.30000},
         {year:2013, month:9, period:"2013 Sep", income:1962.79000, outcome:1660.38000},
         {year:2013, month:10, period:"2013 Oct", income:1846.00000, outcome:2292.29000},
         {year:2013, month:11, period:"2013 Nov", income:1849.00000, outcome:2721.36000},
@@ -75,7 +75,7 @@ for(var i in registry.months) {
 };
 
 function createData(type, data, amount) {
-    return {"type":type, "Period":data.period, "Amount":amount, "Amount:":setAmountText(amount)};
+    return {"type":type, "Period":data.period, "Amount":amount, "Period:": data.period, "Amount:":setAmountText(amount)};
 }
 
 function setAmountText(amount) {

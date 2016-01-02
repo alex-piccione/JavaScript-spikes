@@ -33,7 +33,7 @@ var chart_registry_months = new tauCharts.Chart({
     colors: {brewer:["chart-income", "chart-outcome"]},
     plugins: [
         tauCharts.api.plugins.get('legend')(),
-        tauCharts.api.plugins.get('tooltip')({fields:["Amount:"]})
+        tauCharts.api.plugins.get('tooltip')({fields:["Period:", "Amount:"]})
     ]
 });
 
@@ -54,7 +54,7 @@ var chart_registry_results = new tauCharts.Chart({
         }
     },
     plugins: [
-        tauCharts.api.plugins.get('tooltip')({fields:["Amount:"]}),
+        tauCharts.api.plugins.get('tooltip')({fields:["Period:", "Amount:"]}),
         tauCharts.api.plugins.get('legend')({labels:["Month", "Amount"]}),
     ]
 });
