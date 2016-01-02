@@ -26,9 +26,9 @@ chart_registry_years.renderTo('#chart_registry_years');
 // Months
 var chart_registry_months = new tauCharts.Chart({
     data: months, //registry.months,
-    type: "bar",
-    x: ["Period"],
-    y: ["Amount"],
+    type: "line",
+    x: [ "Month" /*, "Period"*/],
+    y: ["Year:", "Amount"],
     color: "type",
     colors: {brewer:["chart-income", "chart-outcome"]},
     plugins: [

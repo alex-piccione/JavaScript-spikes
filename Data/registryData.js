@@ -71,12 +71,13 @@ for(var i in registry.months) {
     months.push(createData("outcome", e, -e.outcome));
     months.push(createData("result", e, result));
     
-    results.push( createData("month", e, result));
-    results.push( createData("progressive", e, progressiveAmount));
+    results.push(createData("month", e, result));
+    results.push(createData("progressive", e, progressiveAmount));
 };
 
 function createData(type, data, amount) {
-    return {"type":type, "Period":data.period, "Amount":amount, "Period:":data.period, "Year":data.year, "Amount:":setAmountText(amount)};
+    return {"type":type, "Period":data.period, "Amount":amount, "Period:":data.period, "Year":data.year, "Month":data.month, 
+    "Year:":data.year.toString(), "Amount:":setAmountText(amount)};
 }
 
 function setAmountText(amount) {
