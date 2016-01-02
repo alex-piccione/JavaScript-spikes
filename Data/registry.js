@@ -59,10 +59,18 @@ for(var i in registry.months) {
     var e = registry.months[i];
     var result = e.income-e.outcome;
     progressiveAmount = progressiveAmount + result;
-    //results.push({Period:e.period, Amount: result, Progressive: progressiveAmount});
-    results.push({Period:e.period, type:"month", Amount:result});
-    results.push({Period:e.period, type:"progressive", Amount:progressiveAmount});
+    
+    results.push( createData("month", e, result));
+    results.push( createData("progressive", e, progressiveAmount));
     months.push( {period:e.period, type:"income", Amount:e.income} );
     months.push( {period:e.period, type:"outcome", Amount:-e.outcome} );
     months.push( {period:e.period, type:"result", Amount:result} );
 };
+
+function createData(type, data, amount) {
+    return {"type":type, "Period":data.period, "Amount":amount, "Amount:":setAmountText(amount)};
+}
+
+function setAmountText(amount) {
+    return amount.toFixed(2) + ' &#8364'; 
+}

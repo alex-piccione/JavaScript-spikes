@@ -54,7 +54,7 @@ var chart_registry_results = new tauCharts.Chart({
         }
     },
     plugins: [
-        tauCharts.api.plugins.get('tooltip')({fields:["Amount"]}),
+        tauCharts.api.plugins.get('tooltip')({fields:["Amount:"]}),
         tauCharts.api.plugins.get('legend')({labels:["Month", "Amount"]}),
     ]
 });
