@@ -27,13 +27,13 @@ chart_registry_years.renderTo('#chart_registry_years');
 var chart_registry_months = new tauCharts.Chart({
     data: months, //registry.months,
     type: "bar",
-    x: "Period",
-    y: "Amount",
+    x: ["Period"],
+    y: ["Amount"],
     color: "type",
     colors: {brewer:["chart-income", "chart-outcome"]},
     plugins: [
         tauCharts.api.plugins.get('legend')(),
-        tauCharts.api.plugins.get('tooltip')({fields:["Period:", "Amount:"]})
+        tauCharts.api.plugins.get('tooltip')({fields:["Period:", "Amount:", "Year"]})
     ]
 });
 
