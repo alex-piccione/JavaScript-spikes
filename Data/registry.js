@@ -50,6 +50,13 @@ var registry = {
     ]
 };
 
+// add "Amount:" label
+for(var i in registry.years) {
+    year = registry.years[i];
+    year["Amount:"] = setAmountText(year.amount);
+}
+
+
 var months = [];
 var results = [];
 
@@ -62,9 +69,9 @@ for(var i in registry.months) {
     
     results.push( createData("month", e, result));
     results.push( createData("progressive", e, progressiveAmount));
-    months.push( {period:e.period, type:"income", Amount:e.income} );
-    months.push( {period:e.period, type:"outcome", Amount:-e.outcome} );
-    months.push( {period:e.period, type:"result", Amount:result} );
+    months.push(createData("income", e, e.income));
+    months.push(createData("outcome", e, -e.outcome));
+    months.push(createData("result", e, result));
 };
 
 function createData(type, data, amount) {
