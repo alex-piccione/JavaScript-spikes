@@ -2,14 +2,6 @@
 // https://docs.angularjs.org/guide/unit-testing
 
 
-
-// remove check of file
-var describe = describe || null;
-var it = it || null;
-var beforeEach = beforeEach || null;
-var _describe = _describe || null;
-var _it = _it || null;
-
 describe("Given inputAmountField directive", function(){
 	
 	var $compile;
@@ -33,7 +25,6 @@ describe("Given inputAmountField directive", function(){
 
         module("test");    // this is angular.mock.module(), not angular.module() !!!
         
-        //html = "<spikeAmountField>";
 		html = "<div>Amount: <inputAmountField></div>";      
     });			
     

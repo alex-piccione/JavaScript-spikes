@@ -1,5 +1,5 @@
 
-var app = app || angular.module("spike", []);
+//var app = app || angular.module("spike", []);
 
 app.directive("spikeAmountField", function(){
 	var directive = {

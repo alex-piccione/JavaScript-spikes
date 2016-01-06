@@ -1,29 +1,73 @@
+// see here:
+// http://www.benlesh.com/2013/06/angular-js-unit-testing-directives.html
+// https://www.google.it/webhp?client=aff-maxthon-maxthon4&channel=t38&gws_rd=cr,ssl&ei=izAYVqOWOeHqyQO3rb2oBA#channel=t38&q=jasmine+test+element+is+found
 
+describe("Given inputAmountField directive", function() {
+    
+    describe("and it has default parameters", function(){
+    
+        var html;  
+    	//load the app that contains the directive
+        //var app = angular.module("test", [])
+    
+        beforeEach(function(){
 
-describe("inputAmountField directive", function() {
-  var element;
-	var $compile;
+            module("test");   // this is angular.mock.module(), not angular.module() !!!
+        
+            html = "<div>Amount: <inputAmountField></div>";      
+        });	
+      
+        var element;
+        var $compile;
+        var $rootScope;
   
-  var app = angular.module("spike_module", []);
+        //var app = angular.module("spike_module", []);
 
-  
-	//beforeEach(module("spike_module"));
-  
-  beforeEach(function() {
-    module("spike_module");    
-    element = angular.element("<input AmountField decimalSeparator=','>");
-    //element.find("input").length
-    inject( function($rootScope, $compile){
-      var scope = $rootScope.$new();
-      alert(11);
-      $compile(element)(scope);      
-      scope.$digest();      
-    });
-  });
+    /*
+        beforeEach(function() {
+            module("spike_module");    
+            element = angular.element("<input AmountField decimalSeparator=','>");
+            //element.find("input").length
+            inject( function($rootScope, $compile){
+            var scope = $rootScope.$new();
+            $compile(element)(scope);      
+            scope.$digest();      
+            });
+        });
+        */
+        
+        beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_){
+		    // the injector unwraps the underscore (_) from around the parameter names when matching
+
+            $compile = _$compile_;
+		    $rootScope = _$rootScope_;
 	
-  //see here: http://www.benlesh.com/2013/06/angular-js-unit-testing-directives.html
-  //https://www.google.it/webhp?client=aff-maxthon-maxthon4&channel=t38&gws_rd=cr,ssl&ei=izAYVqOWOeHqyQO3rb2oBA#channel=t38&q=jasmine+test+element+is+found
-  
+        }));
+
+    
+        describe("When Angular compile", function(){
+            
+            it("Then <input> element is rendered", function(){
+                var element = $compile(html)($rootScope);           
+
+                $rootScope.$digest();
+        
+                var result = element.text();
+                result = element.html();            
+           
+                expect(result).toContain("<input");
+            
+            });
+            
+        });
+      
+      
+    });
+});
+    
+/*
+	
+
 	describe("Template", function(){
 
 		it("render <input>", function()
@@ -70,6 +114,7 @@ describe("inputAmountField directive", function() {
 	
 });
 
+*/
 
 /*
 beforeEach(function () {
