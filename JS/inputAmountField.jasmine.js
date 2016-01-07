@@ -61,19 +61,40 @@ describe("Given inputAmountField directive", function() {
             
         });
         
-        describe("When value is set to a number (123), after 1 second", function(){
+        describe("When the input is set to an integer (123), after 1 second", function(){
               
             html = "<inputAmountField>";  
-            var amount = 123;
+            var input = 123;
     
-            it("Then it has value equal to 123", function(done){
+            it("Then the field contains the same integer (123)", function(done){
                 var element = $compile(html)($rootScope);  
-                element.val(amount)
+                element.val(input)
                 var amount_2 = element.val();      
               
                 setTimeout(function(){
-                    alert(123);
-                    expect(amount).toEqual(amount);
+                    var result = element.val(); 
+                    expect(result).toEqual(input);
+                    done();
+                }, 1*1000);  
+            
+            }); 
+                        
+        });
+        
+        
+         describe("When the input is a sum of two integers (123+2), after 1 second", function(){
+              
+            html = "<inputAmountField>";  
+            var input = "123+2";
+            var expectedResult = 125;
+    
+            it("Then the field contains the result of the sum (125)", function(done){
+                var element = $compile(html)($rootScope);  
+                element.val(input)                   
+              
+                setTimeout(function(){
+                    var result = element.val();  
+                    expect(result).toEqual(expectedResult);
                     done();
                 }, 1*1000);  
             
