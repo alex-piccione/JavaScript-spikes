@@ -60,6 +60,26 @@ describe("Given inputAmountField directive", function() {
             });
             
         });
+        
+        describe("When value is set to a number (123), after 1 second", function(){
+              
+            html = "<inputAmountField>";  
+            var amount = 123;
+    
+            it("Then it has value equal to 123", function(done){
+                var element = $compile(html)($rootScope);  
+                element.val(amount)
+                var amount_2 = element.val();      
+              
+                setTimeout(function(){
+                    alert(123);
+                    expect(amount).toEqual(amount);
+                    done();
+                }, 1*1000);  
+            
+            }); 
+                        
+        });
       
       
     });

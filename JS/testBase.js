@@ -12,8 +12,7 @@ var expect = expect;
 var app = angular.module("test", []);
 
 beforeEach(function(){
-alert("module");
+
     module("test");    // this is angular.mock.module(), not angular.module() !!!
 
-    //html = "<div>Amount: <inputAmountField></div>";      
 });	
