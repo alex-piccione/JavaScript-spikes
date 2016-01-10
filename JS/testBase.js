@@ -1,11 +1,11 @@
 // remove check of file
-var angular = angular;
+var angular = angular || null;
 var describe = describe || null;
 var it = it || null;
 var beforeEach = beforeEach || null;
-var _describe = _describe || null;
-var _it = _it || null;
-var expect = expect;
+var xdescribe = xdescribe || null;
+var xit = xit || null;
+var expect = expect || null;
 
 // prepare the mock of Angular module
 

@@ -2,26 +2,25 @@
 // http://www.benlesh.com/2013/06/angular-js-unit-testing-directives.html
 // https://www.google.it/webhp?client=aff-maxthon-maxthon4&channel=t38&gws_rd=cr,ssl&ei=izAYVqOWOeHqyQO3rb2oBA#channel=t38&q=jasmine+test+element+is+found
 
+
+
 describe("Given inputAmountField directive", function() {
-    
+        
+        
     describe("and it has default parameters", function(){
     
         var html;  
-    	//load the app that contains the directive
-        //var app = angular.module("test", [])
+        var element;
+        var $compile;
+        var $rootScope;    
     
         beforeEach(function(){
 
             module("test");   // this is angular.mock.module(), not angular.module() !!!
         
             html = "<div>Amount: <inputAmountField></div>";      
-        });	
-      
-        var element;
-        var $compile;
-        var $rootScope;
+        });	      
   
-        //var app = angular.module("spike_module", []);
 
     /*
         beforeEach(function() {
@@ -38,10 +37,8 @@ describe("Given inputAmountField directive", function() {
         
         beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_){
 		    // the injector unwraps the underscore (_) from around the parameter names when matching
-
             $compile = _$compile_;
-		    $rootScope = _$rootScope_;
-	
+		    $rootScope = _$rootScope_;	
         }));
 
     
@@ -68,9 +65,8 @@ describe("Given inputAmountField directive", function() {
     
             it("Then the field contains the same integer (123)", function(done){
                 var element = $compile(html)($rootScope);  
-                element.val(input)
-                var amount_2 = element.val();      
-              
+                element.val(input);
+                
                 setTimeout(function(){
                     var result = element.val(); 
                     expect(result).toEqual(input);
@@ -82,7 +78,7 @@ describe("Given inputAmountField directive", function() {
         });
         
         
-         describe("When the input is a sum of two integers (123+2), after 1 second", function(){
+        describe("When the input is a sum of two integers (123+2), after 1 second", function(){
               
             html = "<inputAmountField>";  
             var input = "123+2";
@@ -90,7 +86,7 @@ describe("Given inputAmountField directive", function() {
     
             it("Then the field contains the result of the sum (125)", function(done){
                 var element = $compile(html)($rootScope);  
-                element.val(input)                   
+                element.val(input);                
               
                 setTimeout(function(){
                     var result = element.val();  
@@ -101,10 +97,48 @@ describe("Given inputAmountField directive", function() {
             }); 
                         
         });
+        
+        
+        // doesn't work because beforeEach is not called        
+        //test($compile, $rootScope, {}, "123456.10", 300, "123456.10"); 
+        
+      
+        describe("when culture is set to \"en\"", function(){
+            
+            html = "<inputAmountField culture=\"en\">";
+            var input = "123.45";
+            var expectedResult = "123.45";
+            
+            describe("when input is \"123.45\"", function(){
+                describe("after 500 milisecon", function(){
+                    it("should havea a value of \"123.45\"", function(done){
+                        
+                        
+                        var element = $compile(html)($rootScope);  
+                        element.val(input);                         
+                        
+                        setTimeout(function(){
+                            var result = element.val();  
+                            expect(result).toEqual(expectedResult);
+                            done();
+                        }, 0.5*1000);   
+                        
+                    });
+                    
+                });
+                
+            });
+        });
       
       
     });
-});
+    
+
+
+});   
+    
+    
+   
     
 /*
 	
@@ -156,6 +190,7 @@ describe("Given inputAmountField directive", function() {
 });
 
 */
+
 
 /*
 beforeEach(function () {
