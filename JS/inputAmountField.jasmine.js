@@ -10,9 +10,20 @@ describe("Given inputAmountField directive", function() {
     describe("and it has default parameters", function(){
     
         var html;  
-        var element;
         var $compile;
-        var $rootScope;    
+        var $rootScope;   
+        
+        function checkValueAfterAWhile(html, input, expectedValue, done){
+            var element = $compile(html)($rootScope);  
+            element.val(input);                         
+                    
+            setTimeout(function(){ 
+                expect(element).toHaveValue(expectedValue);
+                done();
+            }, 0.5*1000);  
+    
+        };
+         
     
         beforeEach(function(){
 
@@ -42,7 +53,7 @@ describe("Given inputAmountField directive", function() {
         }));
 
     
-        describe("When Angular compile", function(){
+        describe("when Angular compile", function(){
             
             it("Then <input> element is rendered", function(){
                 var element = $compile(html)($rootScope);           
@@ -58,78 +69,50 @@ describe("Given inputAmountField directive", function() {
             
         });
         
-        describe("When the input is set to an integer (123), after 1 second", function(){
+        describe("when the input is an integer (123)", function(){
               
             html = "<inputAmountField>";  
             var input = 123;
+            var expectedResult = input.toString();
     
-            it("Then the field contains the same integer (123)", function(done){
-                var element = $compile(html)($rootScope);  
-                element.val(input);
-                
-                setTimeout(function(){
-                    expect(element).toHaveValue(input);
-                    done();
-                }, 1*1000);  
-            
+            it("the result should be the same integer", function(done){
+                checkValueAfterAWhile(html, input, expectedResult, done); 
             }); 
                         
         });
         
         
-        describe("When the input is a sum of two integers (123+2), after 1 second", function(){
+        describe("when the input is a sum of two integers (123+2)", function(){
               
             html = "<inputAmountField>";  
             var input = "123+2";
             var expectedResult = 125;
     
-            it("Then the field contains the result of the sum (125)", function(done){
-                var element = $compile(html)($rootScope);  
-                element.val(input);                
-              
-                setTimeout(function(){  
-                    expect(element).toHaveValue(expectedResult);
-                    done();
-                }, 1*1000);  
-            
+            it("the result should be 125", function(done){
+                checkValueAfterAWhile(html, input, expectedResult, done);            
             }); 
                         
         });
         
       
-        describe("when culture is set to \"en\"", function(){
+        describe("when culture is set to \"en\" and the input is \"123.45\"", function(){
             
             html = "<inputAmountField culture=\"en\">";
             var input = "123.45";
             var expectedResult = "123.45";
             
-            describe("when input is \"123.45\"", function(){
-                describe("after 500 milisecon", function(){
-                    it("should havea a value of \"123.45\"", function(done){
-                        
-                        
-                        var element = $compile(html)($rootScope);  
-                        element.val(input);                         
-                        
-                        setTimeout(function(){ 
-                            expect(element).toHaveValue(expectedResult);
-                            done();
-                        }, 0.5*1000);   
-                        
-                    });
-                    
-                });
-                
-            });
+
+            it("the result should be \"123.45\"", function(done){
+                checkValueAfterAWhile(html, input, expectedResult, done);                    
+            });  
+   
         });
       
       
-    });
-    
+    });    
 
 
 });   
-    
     
    
     
@@ -195,7 +178,8 @@ beforeEach(function () {
                 {
                     var result = {};
                     var currentValue = input.val();
-                    result.pass = util.equals(currentValue, expectedValue, customEqualityTesters);
+                    //result.pass = util.equals(currentValue, expectedValue, customEqualityTesters); // fail to compare 123 with "123"
+                    result.pass = currentValue.toString() === expectedValue.toString();
                     if(result.pass)
                         result.message = "OK";
                     else
