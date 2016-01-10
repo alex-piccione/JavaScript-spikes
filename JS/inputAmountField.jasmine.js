@@ -22,7 +22,7 @@ describe("Given inputAmountField directive", function() {
         });	      
   
 
-    /*
+        /*
         beforeEach(function() {
             module("spike_module");    
             element = angular.element("<input AmountField decimalSeparator=','>");
@@ -68,8 +68,7 @@ describe("Given inputAmountField directive", function() {
                 element.val(input);
                 
                 setTimeout(function(){
-                    var result = element.val(); 
-                    expect(result).toEqual(input);
+                    expect(element).toHaveValue(input);
                     done();
                 }, 1*1000);  
             
@@ -88,19 +87,14 @@ describe("Given inputAmountField directive", function() {
                 var element = $compile(html)($rootScope);  
                 element.val(input);                
               
-                setTimeout(function(){
-                    var result = element.val();  
-                    expect(result).toEqual(expectedResult);
+                setTimeout(function(){  
+                    expect(element).toHaveValue(expectedResult);
                     done();
                 }, 1*1000);  
             
             }); 
                         
         });
-        
-        
-        // doesn't work because beforeEach is not called        
-        //test($compile, $rootScope, {}, "123456.10", 300, "123456.10"); 
         
       
         describe("when culture is set to \"en\"", function(){
@@ -117,9 +111,8 @@ describe("Given inputAmountField directive", function() {
                         var element = $compile(html)($rootScope);  
                         element.val(input);                         
                         
-                        setTimeout(function(){
-                            var result = element.val();  
-                            expect(result).toEqual(expectedResult);
+                        setTimeout(function(){ 
+                            expect(element).toHaveValue(expectedResult);
                             done();
                         }, 0.5*1000);   
                         
@@ -192,20 +185,39 @@ describe("Given inputAmountField directive", function() {
 */
 
 
-/*
-beforeEach(function () {
-  jasmine.addMatchers({
-    toBePlaying: function () {
-      return {
-        compare: function (actual, expected) {
-          var player = actual;
 
-          return {
-            pass: player.currentlyPlayingSong === expected && player.isPlaying
-          };
+beforeEach(function () {
+    jasmine.addMatchers({
+    
+        toHaveValue: function(util, customEqualityTesters){
+            return {
+                compare: function(input, expectedValue)
+                {
+                    var result = {};
+                    var currentValue = input.val();
+                    result.pass = util.equals(currentValue, expectedValue, customEqualityTesters);
+                    if(result.pass)
+                        result.message = "OK";
+                    else
+                        result.message = "Expected \"" + expectedValue + "\" but value is \"" + currentValue + "\"";
+                        
+                    return result; 
+                }
+                
+            }
+            
         }
-      };
-    }
-  });
+    
+        /*toBePlaying: function () {
+            return {
+                compare: function (actual, expected) {
+                    var player = actual;
+
+                    return {
+                        pass: player.currentlyPlayingSong === expected && player.isPlaying
+                    };
+                }
+            };
+        }*/
+    });
 });
-*/
