@@ -47,9 +47,9 @@ describe("Given inputAmountField directive", function() {
         */
         
         beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_){
-		    // the injector unwraps the underscore (_) from around the parameter names when matching
+	    // the injector unwraps the underscore (_) from around the parameter names when matching
             $compile = _$compile_;
-		    $rootScope = _$rootScope_;	
+	    $rootScope = _$rootScope_;	
         }));
 
     
@@ -64,7 +64,6 @@ describe("Given inputAmountField directive", function() {
                 result = element.html();            
            
                 expect(result).toContain("<input");
-            
             });
             
         });
@@ -167,7 +166,7 @@ describe("Given inputAmountField directive", function() {
 
 */
 
-
+/* custom matchers */
 
 beforeEach(function () {
     jasmine.addMatchers({
@@ -187,21 +186,8 @@ beforeEach(function () {
                         
                     return result; 
                 }
-                
             }
-            
         }
-    
-        /*toBePlaying: function () {
-            return {
-                compare: function (actual, expected) {
-                    var player = actual;
 
-                    return {
-                        pass: player.currentlyPlayingSong === expected && player.isPlaying
-                    };
-                }
-            };
-        }*/
     });
 });
