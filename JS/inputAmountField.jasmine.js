@@ -4,117 +4,110 @@
 
 
 
-describe("Given inputAmountField directive", function() {
-        
-        
-    describe("and it has default parameters", function(){
-    
-        var html;  
-        var $compile;
-        var $rootScope;   
-        
-        function checkValueAfterAWhile(html, input, expectedValue, done){
-            var element = $compile(html)($rootScope);  
-            element.val(input);                         
-                    
-            setTimeout(function(){ 
-                expect(element).toHaveValue(expectedValue);
-                done();
-            }, 0.5*1000);  
-    
-        };
-         
-    
-        beforeEach(function(){
-
-            module("test");   // this is angular.mock.module(), not angular.module() !!!
-        
-            html = "<div>Amount: <inputAmountField></div>";      
-        });	      
-  
-
-        /*
-        beforeEach(function() {
-            module("spike_module");    
-            element = angular.element("<input AmountField decimalSeparator=','>");
-            //element.find("input").length
-            inject( function($rootScope, $compile){
-            var scope = $rootScope.$new();
-            $compile(element)(scope);      
-            scope.$digest();      
-            });
-        });
-        */
-        
-        beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_){
-		    // the injector unwraps the underscore (_) from around the parameter names when matching
-            $compile = _$compile_;
-		    $rootScope = _$rootScope_;	
-        }));
-
-    
-        describe("when Angular compile", function(){
-            
-            it("Then <input> element is rendered", function(){
-                var element = $compile(html)($rootScope);           
-
-                $rootScope.$digest();
-        
-                var result = element.text();
-                result = element.html();            
-           
-                expect(result).toContain("<input");
-            
-            });
-            
-        });
-        
-        describe("when the input is an integer (123)", function(){
-              
-            html = "<inputAmountField>";  
-            var input = 123;
-            var expectedResult = input.toString();
-    
-            it("the result should be the same integer", function(done){
-                checkValueAfterAWhile(html, input, expectedResult, done); 
-            }); 
-                        
-        });
-        
-        
-        describe("when the input is a sum of two integers (123+2)", function(){
-              
-            html = "<inputAmountField>";  
-            var input = "123+2";
-            var expectedResult = 125;
-    
-            it("the result should be 125", function(done){
-                checkValueAfterAWhile(html, input, expectedResult, done);            
-            }); 
-                        
-        });
-        
-      
-        describe("when culture is set to \"en\" and the input is \"123.45\"", function(){
-            
-            html = "<inputAmountField culture=\"en\">";
-            var input = "123.45";
-            var expectedResult = "123.45";
-            
-
-            it("the result should be \"123.45\"", function(done){
-                checkValueAfterAWhile(html, input, expectedResult, done);                    
-            });  
+describe("SpikeAmountField", function() {
    
+    var html;  
+    var $compile;
+    var $rootScope; 
+    
+    function compileElement(html, $compile, $rootScope) {
+        var element = $compile(html)($rootScope);
+        $rootScope.$digest();
+            
+        //var result = element.text();
+        var result = element.html();
+        return result;    
+    };  
+        
+    function checkValueAfterAWhile(html, input, expectedValue, done){
+        var element = $compile(html)($rootScope);  
+        element.val(input);                         
+                
+        setTimeout(function(){
+            expect(element).toHaveValue(expectedValue);
+            done();
+        }, 0.5*1000);  
+
+    };
+         
+
+    beforeEach(function(){
+            
+        html = "<div>Amount: <spike-amount-field></div>";   // default
+        html = "<div>Amount: <spike:amount-field placeholder=\"0.00\" decimal-separator=\"'.'\" thousand-separator=\".\" amount=\"amountValue\" ></spike:amount-field></div>";
+        
+    });	      
+  
+       
+    beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_){
+        // the injector unwraps the underscore (_) from around the parameter names when matching
+        $compile = _$compile_;
+        $rootScope = _$rootScope_;	
+    }));
+
+    
+    describe("when Angular compile", function(){  
+        
+        
+        it("<input> element should be rendered", function(){       
+            var resultHtml = compileElement(html, $compile, $rootScope);
+            expect(resultHtml).toContain("<input");        
         });
+        
+        
+        it("\"placeholder\" attribute should berendered", function(){
+            var resultHtml = compileElement(html, $compile, $rootScope);    
+            expect(resultHtml).toContain("placeholder=");            
+        });
+        
+    });
+    
+        
+    describe("when the input is an integer (123)", function(){
+            
+        html = "<inputAmountField>";  
+        var input = 123;
+        var expectedResult = input.toString();
+
+        it("the result should be the same integer", function(done){
+            checkValueAfterAWhile(html, input, expectedResult, done); 
+        }); 
+                    
+    });
+        
+    // todo: temporary hidden
+    xdescribe("when the input is a sum of two integers (123+2)", function(){
+            
+        html = "<inputAmountField>";  
+        var input = "123+2";
+        var expectedResult = 125;
+
+        it("the result should be 125", function(done){
+            checkValueAfterAWhile(html, input, expectedResult, done);            
+        }); 
+                    
+    });
+        
+    
+    describe("when culture is set to \"en\" and the input is \"123.45\"", function(){
+        
+        html = "<inputAmountField culture=\"en\">";
+        var input = "123.45";
+        var expectedResult = "123.45";
+        
+
+        it("the result should be \"123.45\"", function(done){
+            checkValueAfterAWhile(html, input, expectedResult, done);                    
+        });  
+
+    });
       
-      
-    });    
 
 
 });   
     
-   
+    
+  
     
 /*
 	

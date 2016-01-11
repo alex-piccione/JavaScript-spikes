@@ -11,8 +11,9 @@ var expect = expect || null;
 
 var app = angular.module("test", []);
 
+
 beforeEach(function(){
 
-    module("test");    // this is angular.mock.module(), not angular.module() !!!
+    module("test");    // this is angular.mock.module(), not angular.module() !!!   
 
 });	
