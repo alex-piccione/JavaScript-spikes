@@ -54,7 +54,6 @@ describe("SpikeAmountField", function() {
             expect(resultHtml).toContain("<input");        
         });
         
-        
         it("\"placeholder\" attribute should berendered", function(){
             var resultHtml = compileElement(html, $compile, $rootScope);    
             expect(resultHtml).toContain("placeholder=");            
@@ -160,7 +159,7 @@ describe("SpikeAmountField", function() {
 
 */
 
-
+/* custom matchers */
 
 beforeEach(function () {
     jasmine.addMatchers({
@@ -180,21 +179,8 @@ beforeEach(function () {
                         
                     return result; 
                 }
-                
             }
-            
         }
-    
-        /*toBePlaying: function () {
-            return {
-                compare: function (actual, expected) {
-                    var player = actual;
 
-                    return {
-                        pass: player.currentlyPlayingSong === expected && player.isPlaying
-                    };
-                }
-            };
-        }*/
     });
 });
