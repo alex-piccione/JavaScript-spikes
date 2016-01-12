@@ -25,6 +25,8 @@ function Calculator() {
         recognizeValues: function(text){
             var values = text.toString().split(" ");
             
+            return values;
+            
             //while (values.length > 1)
             {
                 if(values.length == 2)
