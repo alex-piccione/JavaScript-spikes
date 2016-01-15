@@ -2,7 +2,10 @@
 // Immediately Invoked Function Expression (IIFE)
 // ref: https://en.wikipedia.org/wiki/Immediately-invoked_function_expression
 
-function Calculator(){
+function Calculator(params){
+    
+    params = params || {};
+    params.decimalSeparator = params.decimalSeparator || "."; 
     
     this.operators = ["+", "-", "*", "/"];
     
@@ -12,8 +15,7 @@ function Calculator(){
 };
 
 
-Calculator.prototype.sum = function(n1, n2){
-    
+Calculator.prototype.sum = function(n1, n2) {    
     return n1+n2;
 };
 
@@ -23,7 +25,7 @@ Array.prototype.any = function(values){
     if(values === undefined)
         return false;
     
-    if(values === undefined || !values.hasOwnProperty("length"))
+    if(!values.hasOwnProperty("length"))
         values = [values];  
     
     for(var i in values)
@@ -31,37 +33,47 @@ Array.prototype.any = function(values){
         if(this.indexOf(values[i]) >= 0)
             return true;        
     }
-    /*
-    var _a = this;
-    values.forEach(function(e){
-        console.log(_a.indexOf(e));
-        
-        //if _a.some(function(_e,i,array){return _e == e})
-        
-        if (_a.indexOf(e) >= 0) {
-            console.log("true");
-            return true;        
-        }
-    });*/
-    
-    console.log("false");
     return false;
-    /*
-    var _array = this;
-    values.forEach(function(eToFind){
-        _array.forEach(function(e){
-            if(e === eToFind)
-                return true;            
-        });        
-    });
-    return false;
-    */
 }
 
-Calculator.prototype.recognizeValues = function(text){
+Array.prototype.contains = function(value){    
+    
+    if(value === undefined)
+        return false;
+    
+    return this.indexOf(value) >= 0;
+}
+
+Calculator.prototype.recognizeValues = function(text) {
     var startValues = text.toString().split(" ");
-    var values = [];    
-   
+    var values = [];       
+       
+    var chars = [];
+    var currentValue = null;
+    for(var i in text)
+    {
+        var char = text[i];
+        chars.push(text[i]);   
+        if(char == " " && currentValue != null) {
+            values.push(currentValue);
+            currentValue = null;            
+        }
+        else if(this.operators.contains(char)) {
+            values.push(currentValue);  
+            currentValue = null; 
+            values.push(char);
+        }
+        else if( char == this.decimalSeparator || /\d/.test(char) ) {            
+            if(currentValue == null) 
+                currentValue = char;
+            else 
+                currentValue += char;            
+        }
+        else {
+            throw Error("Invalid character: \"" + char + "\".");            
+        }
+                     
+    }
     
     return values;
 };
