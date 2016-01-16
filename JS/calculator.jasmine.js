@@ -13,7 +13,20 @@ describe("Calculator", function(){
             var fnStr = func.toString().replace(STRIP_COMMENTS, '');
             var result = fnStr.slice(fnStr.indexOf('(')+1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
             return result || [];
-        }
+        };
+        
+        /*
+        given the string "this is a #one" an the values {one:"test"} it returns "this is a test"
+        */
+        function createDescription(description, values){  
+            var placeHolders = description.match(/(#\w+)/g);
+            if(!placeHolders) throw Error("Fail to recognize placeHolders in test description (" + description + ").");
+            placeHolders.forEach(function(placeHolder, index){
+                var newValue = values[placeHolder.substr(1)];  // remove the "#"
+                description = description.replace(placeHolder, newValue);                    
+            });    
+            return description;
+        };
             
                 
         return {
@@ -32,7 +45,7 @@ describe("Calculator", function(){
                 }, this);
             },
                         
-            createDescription: function(descriptionTemplate, testValues){
+            createDescription_: function(descriptionTemplate, testValues){
                 var description = descriptionTemplate;                     
                 
                 var placeHolders = descriptionTemplate.match(/(#\w+)/g);
@@ -44,13 +57,14 @@ describe("Calculator", function(){
                 return description;
             },
             
-             executeTestCases_: function(params){
+            // inspired by: https://github.com/desirable-objects/neckbeard.js/blob/master/src/neckbeard.js
+            // https://github.com/FrankyBoy/jasmine-params/blob/master/lib/jparams.js
+            // https://www.npmjs.com/package/jasmine-params
+            executeTestCases_: function(params){
                 var helper = this;
                 params.values.forEach( function(element, index){
-                    var description = helper.createDescription_(params.description, element);
-                    var _; // required for .apply()     
-                    var parameters = Object.keys(element);  
-                    
+                    var description = createDescription(params.description, element);                      
+                                       
                     var paramNames = getParamNames(params.test);
                     var parameters = [];
                     paramNames.forEach(function(name){
@@ -58,32 +72,18 @@ describe("Calculator", function(){
                         parameters.push(element[name]);                        
                     });
                     
-                    console.log(parameters);          
+                    var _; // required for .apply()             
                     return it(description, function(){
                         _ = params.test.apply(_, parameters);
                     });                    
                 });
-            },  
-                  
-            
-            /*
-            given the string "this is a #one" an the values {one:"test"} it returns "this is a test"
-            */
-            createDescription_: function(description, values){  
-                var placeHolders = description.match(/(#\w+)/g);
-                if(!placeHolders) throw Error("Fail to recognize placeHolders in test description (" + description + ").");
-                placeHolders.forEach(function(placeHolder, index){
-                    var newValue = values[placeHolder.substr(1)];  // remove the "#"
-                    description = description.replace(placeHolder, newValue);                    
-                });    
-                return description;
             },
+           
             
-            // ispiration: https://github.com/desirable-objects/neckbeard.js/blob/master/src/neckbeard.js
             executeTest: function(params){
                 var helper = this;
                 params.testCases.forEach(function(testCase){
-                    var description = helper.createDescription(params.testDescription, testCase);                                        
+                    var description = helper.createDescription_(params.testDescription, testCase);                                        
 
                     return it(description, function(){
                         //params.testFunction(testCase);
