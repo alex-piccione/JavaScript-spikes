@@ -45,31 +45,35 @@ Array.prototype.contains = function(value){
 }
 
 Calculator.prototype.recognizeValues = function(text) {
-    var startValues = text.toString().split(" ");
-    var values = [];       
-       
-    var chars = [];
+    
+    var values = [];   
+
     var currentValue = null;
     for(var i in text)
     {
         var char = text[i];
-        chars.push(text[i]);   
-        if(char == " " && currentValue != null) {
-            values.push(currentValue);
-            currentValue = null;            
+        
+        console.log("char: " + char);
+          
+        if(char == " ") { 
+            console.log("space");
+            if(currentValue != null) values.push(currentValue);  
+            currentValue = null;    
         }
         else if(this.operators.contains(char)) {
-            values.push(currentValue);  
+            if(currentValue != null) values.push(currentValue);  
             currentValue = null; 
             values.push(char);
         }
-        else if( char == this.decimalSeparator || /\d/.test(char) ) {            
+        else if(char == this.decimalSeparator || /\d/.test(char) ) {            
             if(currentValue == null) 
                 currentValue = char;
             else 
-                currentValue += char;            
+                currentValue += char;    
+            if(i == text.length-1) values.push(currentValue);        
         }
         else {
+            console.log("invalid: " + char + "("+ char.charCodeAt(0) +")");
             throw Error("Invalid character: \"" + char + "\".");            
         }
                      
