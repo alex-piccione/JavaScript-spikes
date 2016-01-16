@@ -36,32 +36,10 @@ describe("Calculator", function(){
                 expect(result).toEqual(expectedResult);
             },
             
-            executeTestCases: function(testCases) {
-                var helper = this;
-                testCases.forEach(function(element) {
-                    it('given the text "' + element.text + '" shuld return ' + element.expectedResult, function(){
-                        helper.testCalculate(element.text, element.expectedResult, element.params);                    
-                    });
-                }, this);
-            },
-                        
-            createDescription_: function(descriptionTemplate, testValues){
-                var description = descriptionTemplate;                     
-                
-                var placeHolders = descriptionTemplate.match(/(#\w+)/g);
-                if(!placeHolders) throw Error("Fail to recognize placeHolders in test description (" + description + ").");
-                placeHolders.forEach(function(element, index){
-                    var replaceValue = testValues[index];
-                    description = description.replace(element, replaceValue);                    
-                });    
-                return description;
-            },
-            
             // inspired by: https://github.com/desirable-objects/neckbeard.js/blob/master/src/neckbeard.js
             // https://github.com/FrankyBoy/jasmine-params/blob/master/lib/jparams.js
             // https://www.npmjs.com/package/jasmine-params
-            executeTestCases_: function(params){
-                var helper = this;
+            executeTestCases: function(params){
                 params.values.forEach( function(element, index){
                     var description = createDescription(params.description, element);                      
                                        
@@ -71,19 +49,17 @@ describe("Calculator", function(){
                         if(!element[name]) throw new Error('Element "' + name +'" not found in row #' + index + '" of values."');
                         parameters.push(element[name]);                        
                     });
-                    
-                    var _; // required for .apply()             
+         
                     return it(description, function(){
-                        _ = params.test.apply(_, parameters);
+                        params.test.apply(null, parameters);
                     });                    
                 });
-            },
-           
+            },           
             
             executeTest: function(params){
                 var helper = this;
                 params.testCases.forEach(function(testCase){
-                    var description = helper.createDescription_(params.testDescription, testCase);                                        
+                    var description = createDescription(params.testDescription, testCase);                                        
 
                     return it(description, function(){
                         //params.testFunction(testCase);
@@ -152,42 +128,20 @@ describe("Calculator", function(){
         });
     });    
      
-    describe("recognizeValues()", function(){      
-       
-       
-        it("given the string \"1 + 2\" should return ['1','+','2']", function(){
-            var input = "1 + 2";
-            var expectedResult = ["1", "+", "2"];
-            var result = calculator.recognizeValues(input);
-            expect(result).toEqual(expectedResult);
-        });        
-
-        it("given the string \"1+2\" should return ['1','+','2']", function(){
-            var input = "1+2";
-            var expectedResult = ["1", "+", "2"];
-            var result = calculator.recognizeValues(input);
-            expect(result).toEqual(expectedResult);
-        });
+    describe("recognizeValues()", function(){   
         
-        it("given the string \"1.2 + 3.4\" should return ['1.2','+','3.4']", function(){
-            var input = "1.2 + 3.4";
-            var expectedResult = ["1.2", "+", "3.4"];
-            var result = calculator.recognizeValues(input);
-            expect(result).toEqual(expectedResult);
-        }); 
-        
-        helper.executeTestCases_( {
+        helper.executeTestCases( {
             description: 'given the string "#text" should return [#result]', 
             values: [
-                { text: "1.2 + 3.4", result: ["1.2", "+", "3.4"] }           
+                { text: "1 + 2",        result: ["1", "+", "2"] },
+                { text: "1+2",          result: ["1", "+", "2"] },
+                { text: "1.2 + 3.4",    result: ["1.2", "+", "3.4"] }               
             ],            
             test: function(text, result){
-                console.log(text);
                 var testResult = calculator.recognizeValues(text);
                 expect(testResult).toEqual(result);    
             }
-        });       
-        
+        });  
         
     });
     
@@ -209,15 +163,19 @@ describe("Calculator", function(){
             expect(calculator.calculate).toBeDefined();            
         });
         
+        
         describe("with default parameter", function(){
-            var testCases = [
-                {text:"123", expectedResult:123, params:null },
-                {text:" 12.3 ", expectedResult:12.3, params:null },
-                {text:"1+2", expectedResult:3, params:null }
-                
-            ];
             
-            helper.executeTestCases(testCases);           
+            helper.executeTestCases( {
+                description: 'given the string "#text" should return #result',
+                values: [
+                     { text: "123",     result: 123}
+                    ,{ text: " 12.3 ",  result: 12.3}                                
+                ],
+                test: function(text, result){
+                    expect(calculator.calculate(text)).toEqual(result);
+                }
+            });           
         });
         
     });
