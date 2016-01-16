@@ -2,8 +2,7 @@
 
 describe("Calculator", function(){
 
-    var calculator;
-    
+    var calculator;    
     
     var helper = (function Helper(){          
         var calculator;          
@@ -14,13 +13,13 @@ describe("Calculator", function(){
                 expect(result).toEqual(expectedResult);
             }
         };
-    })();
-    
+    })();    
    
 
     beforeEach(function(){
-        calculator = new Calculator();  
+         calculator = new Calculator(null);
     });
+    
     
     describe("Array.any()", function(){
         
@@ -68,11 +67,11 @@ describe("Calculator", function(){
         it("should have \"decimalSeparator\"", function(){
             expect(calculator.decimalSeparator).toBeDefined();        
         });
-    });
-    
+    });    
      
-    describe("recognizeValues()", function(){
-        
+    describe("recognizeValues()", function(){      
+       
+       
         it("given the string \"1 + 2\" should return ['1','+','2']", function(){
             var input = "1 + 2";
             var expectedResult = ["1", "+", "2"];
@@ -114,7 +113,7 @@ describe("Calculator", function(){
             expect(calculator.calculate).toBeDefined();            
         });
         
-        describe("with defaul parameter", function(){
+        describe("with default parameter", function(){
             var testCases = [
                 {text:"123", expectedResult:123, params:null },
                 {text:" 12.3 ", expectedResult:12.3, params:null },
@@ -127,21 +126,6 @@ describe("Calculator", function(){
                     helper.testCalculate(element.text, element.expectedResult, element.params);                    
                 });
             }, this);
-            
-            
-            xit("given the text \"123\" should return 123", function(){
-                var text = "123";
-                var result = calculator.calculate(text);
-                expect(result).toEqual(123);
-            });
-            
-            xit('given the text " 12.3 " should return 12.3', function(){
-                helper.testCalculate(" 12.3 ", 12.3, null)
-            });
-            
-            xit('given the text "1.2+2" should return 3.2', function(){
-                helper.testCalculate("1.2+2", 3.2, null);            
-            });
         
         });
         
@@ -150,5 +134,3 @@ describe("Calculator", function(){
   
 });
 
-
-// add a matcher for result of calculate
