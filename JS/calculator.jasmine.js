@@ -11,7 +11,30 @@ describe("Calculator", function(){
                 calculator = new Calculator(params);
                 var result = calculator.calculate(text);
                 expect(result).toEqual(expectedResult);
-            }
+            },
+            
+            executeTestCases: function(testCases) {
+                var helper = this;
+                testCases.forEach(function(element) {
+                    it('given the text "' + element.text + '" shuld return ' + element.expectedResult, function(){
+                        helper.testCalculate(element.text, element.expectedResult, element.params);                    
+                    });
+                }, this);
+            },
+            
+            // ispiration: https://github.com/desirable-objects/neckbeard.js/blob/master/src/neckbeard.js
+            executeTest: function(params){
+                params.testCases.forEach(function(testCase){
+                    var description = params.testDescription;                    
+
+                    return it(description, function(){
+                        //params.testFunction(testCase);
+                        params.testFunction(testCase[0], testCase[1], testCase[2]);
+                    });                    
+                   
+                });
+            }     
+            
         };
     })();    
    
@@ -33,20 +56,31 @@ describe("Calculator", function(){
             expect(array.any(2)).toBe(true);
         });
         
-         it("given the array \"[1,2,5,6]\" should return false for \"3\"", function(){
+        it("given the array \"[1,2,5,6]\" should return false for \"3\"", function(){
             var array = [1,2,5,6];                        
             expect(array.any(3)).toBe(false);
         });
         
     });
     
-    describe("Array.contains()", function(){
-        
+    describe("Array.contains()", function(){        
+       
         it("should exists", function(){
             var a = [];
             expect(a.contains).toBeDefined();
         });
-
+        
+        helper.executeTest( {
+            testDescription: "given the array #a for the value #v should return #r",
+            testCases: [
+                [ ["a", "b", "c"], "b", true ],
+                [ ["a", "b", "c"], "d", false ]                
+            ],
+            testFunction: function(array, value, expectedResult){
+                expect(array.contains(value)).toBe(expectedResult);
+            }            
+        } );
+        
         it("given the array [\"a\", \"b\", \"c\"] shuld return true for value \"b\"", function(){
             var a = ["a", "b", "c"];
             expect(a.contains("b")).toBe(true);            
@@ -121,12 +155,7 @@ describe("Calculator", function(){
                 
             ];
             
-            testCases.forEach(function(element) {
-                it('given the text "' + element.text + '" shuld return ' + element.expectedResult, function(){
-                    helper.testCalculate(element.text, element.expectedResult, element.params);                    
-                });
-            }, this);
-        
+            helper.executeTestCases(testCases);           
         });
         
     });
