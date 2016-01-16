@@ -5,7 +5,17 @@ describe("Calculator", function(){
     var calculator;    
     
     var helper = (function Helper(){          
-        var calculator;          
+        var calculator;  
+        
+        var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+        var ARGUMENT_NAMES = /([^\s,]+)/g;
+        function getParamNames(func) {
+            var fnStr = func.toString().replace(STRIP_COMMENTS, '');
+            var result = fnStr.slice(fnStr.indexOf('(')+1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+            return result || [];
+        }
+            
+                
         return {
             testCalculate: function(text, expectedResult, params){
                 calculator = new Calculator(params);
@@ -21,12 +31,11 @@ describe("Calculator", function(){
                     });
                 }, this);
             },
-            
-            
-            createDescription: function(params, testValues){
-                var description = params.testDescription;                     
+                        
+            createDescription: function(descriptionTemplate, testValues){
+                var description = descriptionTemplate;                     
                 
-                var placeHolders = params.testDescription.match(/(#\w+)/g);
+                var placeHolders = descriptionTemplate.match(/(#\w+)/g);
                 if(!placeHolders) throw Error("Fail to recognize placeHolders in test description (" + description + ").");
                 placeHolders.forEach(function(element, index){
                     var replaceValue = testValues[index];
@@ -35,11 +44,46 @@ describe("Calculator", function(){
                 return description;
             },
             
+             executeTestCases_: function(params){
+                var helper = this;
+                params.values.forEach( function(element, index){
+                    var description = helper.createDescription_(params.description, element);
+                    var _; // required for .apply()     
+                    var parameters = Object.keys(element);  
+                    
+                    var paramNames = getParamNames(params.test);
+                    var parameters = [];
+                    paramNames.forEach(function(name){
+                        if(!element[name]) throw new Error('Element "' + name +'" not found in row #' + index + '" of values."');
+                        parameters.push(element[name]);                        
+                    });
+                    
+                    console.log(parameters);          
+                    return it(description, function(){
+                        _ = params.test.apply(_, parameters);
+                    });                    
+                });
+            },  
+                  
+            
+            /*
+            given the string "this is a #one" an the values {one:"test"} it returns "this is a test"
+            */
+            createDescription_: function(description, values){  
+                var placeHolders = description.match(/(#\w+)/g);
+                if(!placeHolders) throw Error("Fail to recognize placeHolders in test description (" + description + ").");
+                placeHolders.forEach(function(placeHolder, index){
+                    var newValue = values[placeHolder.substr(1)];  // remove the "#"
+                    description = description.replace(placeHolder, newValue);                    
+                });    
+                return description;
+            },
+            
             // ispiration: https://github.com/desirable-objects/neckbeard.js/blob/master/src/neckbeard.js
             executeTest: function(params){
                 var helper = this;
                 params.testCases.forEach(function(testCase){
-                    var description = helper.createDescription(params, testCase);                                        
+                    var description = helper.createDescription(params.testDescription, testCase);                                        
 
                     return it(description, function(){
                         //params.testFunction(testCase);
@@ -131,6 +175,19 @@ describe("Calculator", function(){
             var result = calculator.recognizeValues(input);
             expect(result).toEqual(expectedResult);
         }); 
+        
+        helper.executeTestCases_( {
+            description: 'given the string "#text" should return [#result]', 
+            values: [
+                { text: "1.2 + 3.4", result: ["1.2", "+", "3.4"] }           
+            ],            
+            test: function(text, result){
+                console.log(text);
+                var testResult = calculator.recognizeValues(text);
+                expect(testResult).toEqual(result);    
+            }
+        });       
+        
         
     });
     
