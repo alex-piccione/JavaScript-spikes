@@ -24,7 +24,15 @@ describe("Calculator", function(){
             
             
             createDescription: function(params, testValues){
-                var description = params.testDEscription;         
+                var description = params.testDescription;                     
+                
+                var placeHolders = params.testDescription.match(/(#\w+)/g);
+                if(!placeHolders) throw Error("Fail to recognize placeHolders in test description (" + description + ").");
+                placeHolders.forEach(function(element, index){
+                    var replaceValue = testValues[index];
+                    description = description.replace(element, replaceValue);                    
+                });    
+                return description;
             },
             
             // ispiration: https://github.com/desirable-objects/neckbeard.js/blob/master/src/neckbeard.js
