@@ -8,11 +8,8 @@ function Calculator(params){
     params.decimalSeparator = params.decimalSeparator || "."; 
     
     this.operators = ["+", "-", "*", "/"];
-    this.decimalSeparator = params.decimalSeparator;
-    
-    /*return {
-         
-    };*/
+    this.decimalSeparator = params.decimalSeparator;   
+
 };
 
 
@@ -53,11 +50,8 @@ Calculator.prototype.recognizeValues = function(text) {
     for(var i in text)
     {
         var char = text[i];
-        
-        console.log("char: " + char);
           
         if(char == " ") { 
-            console.log("space");
             if(currentValue != null) values.push(currentValue);  
             currentValue = null;    
         }
@@ -74,65 +68,20 @@ Calculator.prototype.recognizeValues = function(text) {
             if(i == text.length-1) values.push(currentValue);        
         }
         else {
-            console.log("invalid: " + char + "("+ char.charCodeAt(0) +")");
+            //console.log("invalid: " + char + "("+ char.charCodeAt(0) +")");
             throw Error("Invalid character: \"" + char + "\".");            
-        }
-                     
+        }                     
     }
     
     return values;
 };
 
-function _Calculator() {
-
-	return {
-	
-		sum: function(a, b){
-			return a + b;
-		},
+Calculator.prototype.calculate = function(text){
+    
+    var values = this.recognizeValues(text);
+    
+    if(values.length == 1)
+        return parseFloat(values[0]);
         
-        divide: function(a, b){
-            return a / b;            
-        },
-        
-        subtract: function(a, b)
-        {
-            return a - b;            
-        },
-        
-        
-        
-        calculate: function(text){
-            
-            var values = recognizeValues(text);
-        },
-        
-        recognizeValues: function(text){
-            var values = text.toString().split(" ");
-            
-            values.forEach(function(element, index) {
-                var sumOperator = element.indexOf("+"); 
-                if(sumOperator)
-                {
-                    //values = values.splice(0, sumOperator).
-                    
-                }    
-            });
-            
-            
-            
-            if(values.length > 1)
-            {
-                if(values.length == 2)
-                     throw Error("Remain 2 values to elaborate, cannot elaborate");
-                
-                var a = values[0];
-                var b = values[2];
-                
-            } 
-            
-            return values;            
-        }
-        
-	}
+    return values[0];
 };

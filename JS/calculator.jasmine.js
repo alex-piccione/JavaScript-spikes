@@ -56,20 +56,7 @@ describe("Calculator", function(){
         });
     });
     
-
-    describe("sum()", function(){
-
-        it("should be able to sum two numbers", function(){     
-            var a = 3;
-            var b = 5;
-            var expectedResult = 8;      
-            var result = calculator.sum(a, b);      
-            expect(result).toBe(expectedResult);        
-        });
-  
-    });
-    
-    
+     
     describe("recognizeValues()", function(){
         
         it("given the string \"1 + 2\" should return ['1','+','2']", function(){
@@ -95,6 +82,37 @@ describe("Calculator", function(){
         
     });
     
+    describe("sum()", function(){
+
+        it("should be able to sum two numbers", function(){     
+            var a = 3;
+            var b = 5;
+            var expectedResult = 8;      
+            var result = calculator.sum(a, b);      
+            expect(result).toBe(expectedResult);        
+        });
+  
+    });
+    
+    describe("calculate()", function(){
+        
+        it("should be defined", function(){
+            expect(calculator.calculate).toBeDefined();            
+        });
+        
+        it("given the text \"123\" should return 123", function(){
+            var text = "123";
+            var result = calculator.calculate(text);
+            expect(result).toEqual(123);
+        });
+        
+        it("given the text \" 12.3 \" should return 12.3", function(){
+            var text = "123";
+            var result = calculator.calculate(text);
+            expect(result).toEqual(123);
+        });
+        
+    });
 
   
 });
