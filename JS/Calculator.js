@@ -8,6 +8,7 @@ function Calculator(params){
     params.decimalSeparator = params.decimalSeparator || "."; 
     
     this.operators = ["+", "-", "*", "/"];
+    this.decimalSeparator = params.decimalSeparator;
     
     /*return {
          
