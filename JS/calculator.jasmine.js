@@ -45,8 +45,19 @@ describe("Calculator", function(){
         });
     });
     
+    describe("when created", function(){
+        
+        it("should have \"operators\"", function(){
+            expect(calculator.operators).toBeDefined();        
+        });
+        
+        it("should have \"decimalSeparator\"", function(){
+            expect(calculator.decimalSeparator).toBeDefined();        
+        });
+    });
+    
 
-    describe("sum()", function() {
+    describe("sum()", function(){
 
         it("should be able to sum two numbers", function(){     
             var a = 3;
@@ -59,7 +70,7 @@ describe("Calculator", function(){
     });
     
     
-    describe("recognizeValues()", function() {
+    describe("recognizeValues()", function(){
         
         it("given the string \"1 + 2\" should return ['1','+','2']", function(){
             var input = "1 + 2";
