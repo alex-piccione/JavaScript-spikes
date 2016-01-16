@@ -3,9 +3,23 @@
 describe("Calculator", function(){
 
     var calculator;
+    
+    
+    var helper = (function Helper(){          
+        var calculator;          
+        return {
+            testCalculate: function(text, expectedResult, params){
+                calculator = new Calculator(params);
+                var result = calculator.calculate(text);
+                expect(result).toEqual(expectedResult);
+            }
+        };
+    })();
+    
+   
 
     beforeEach(function(){
-        calculator = new Calculator();    
+        calculator = new Calculator();  
     });
     
     describe("Array.any()", function(){
@@ -106,13 +120,21 @@ describe("Calculator", function(){
             expect(result).toEqual(123);
         });
         
-        it("given the text \" 12.3 \" should return 12.3", function(){
-            var text = "123";
-            var result = calculator.calculate(text);
-            expect(result).toEqual(123);
+        it('given the text " 12.3 " should return 12.3', function(){
+            // var text = "123";
+            //var result = calculator.calculate(text);
+            // expect(result).toEqual(123);
+            helper.testCalculate(" 12.3 ", 12.3, null)
+        });
+        
+        it('given the text "1.2+2" should return 3.2', function(){
+            helper.testCalculate("1.2+2", 3.2, null);            
         });
         
     });
 
   
 });
+
+
+// add a matcher for result of calculate
