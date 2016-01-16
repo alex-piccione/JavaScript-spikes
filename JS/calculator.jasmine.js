@@ -22,10 +22,16 @@ describe("Calculator", function(){
                 }, this);
             },
             
+            
+            createDescription: function(params, testValues){
+                var description = params.testDEscription;         
+            },
+            
             // ispiration: https://github.com/desirable-objects/neckbeard.js/blob/master/src/neckbeard.js
             executeTest: function(params){
+                var helper = this;
                 params.testCases.forEach(function(testCase){
-                    var description = params.testDescription;                    
+                    var description = helper.createDescription(params, testCase);                                        
 
                     return it(description, function(){
                         //params.testFunction(testCase);
@@ -60,6 +66,7 @@ describe("Calculator", function(){
             var array = [1,2,5,6];                        
             expect(array.any(3)).toBe(false);
         });
+                
         
     });
     
@@ -79,17 +86,7 @@ describe("Calculator", function(){
             testFunction: function(array, value, expectedResult){
                 expect(array.contains(value)).toBe(expectedResult);
             }            
-        } );
-        
-        it("given the array [\"a\", \"b\", \"c\"] shuld return true for value \"b\"", function(){
-            var a = ["a", "b", "c"];
-            expect(a.contains("b")).toBe(true);            
-        });
-        
-        it("given the array [\"a\", \"b\", \"c\"] shuld return false for value \"d\"", function(){
-            var a = ["a", "b", "c"];
-            expect(a.contains("d")).toBe(false);            
-        });
+        } );       
     });
     
     describe("when created", function(){
