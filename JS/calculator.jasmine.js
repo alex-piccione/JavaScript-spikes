@@ -114,21 +114,35 @@ describe("Calculator", function(){
             expect(calculator.calculate).toBeDefined();            
         });
         
-        it("given the text \"123\" should return 123", function(){
-            var text = "123";
-            var result = calculator.calculate(text);
-            expect(result).toEqual(123);
-        });
+        describe("with defaul parameter", function(){
+            var testCases = [
+                {text:"123", expectedResult:123, params:null },
+                {text:" 12.3 ", expectedResult:12.3, params:null },
+                {text:"1+2", expectedResult:3, params:null }
+                
+            ];
+            
+            testCases.forEach(function(element) {
+                it('given the text "' + element.text + '" shuld return ' + element.expectedResult, function(){
+                    helper.testCalculate(element.text, element.expectedResult, element.params);                    
+                });
+            }, this);
+            
+            
+            xit("given the text \"123\" should return 123", function(){
+                var text = "123";
+                var result = calculator.calculate(text);
+                expect(result).toEqual(123);
+            });
+            
+            xit('given the text " 12.3 " should return 12.3', function(){
+                helper.testCalculate(" 12.3 ", 12.3, null)
+            });
+            
+            xit('given the text "1.2+2" should return 3.2', function(){
+                helper.testCalculate("1.2+2", 3.2, null);            
+            });
         
-        it('given the text " 12.3 " should return 12.3', function(){
-            // var text = "123";
-            //var result = calculator.calculate(text);
-            // expect(result).toEqual(123);
-            helper.testCalculate(" 12.3 ", 12.3, null)
-        });
-        
-        it('given the text "1.2+2" should return 3.2', function(){
-            helper.testCalculate("1.2+2", 3.2, null);            
         });
         
     });
