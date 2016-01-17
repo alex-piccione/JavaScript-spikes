@@ -154,7 +154,9 @@ describe("Calculator", function(){
                 values: [
                      { text: "123",     result: 123}
                     ,{ text: " 12.3 ",  result: 12.3}      
-                    ,{ text: "1+2",  result: 3}                                 
+                    ,{ text: "1+2",  result: 3}
+                    ,{ text: "1.11+2.22",  result: 3.33}
+                    ,{ text: " 101.11   +202.22  ",  result: 303.33}                                  
                 ],
                 test: function(text, result){
                     expect(calculator.calculate(text)).toEqual(result);
