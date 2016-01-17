@@ -11,6 +11,12 @@ var expect = expect || null;
 
 var app = angular.module("test", []);
 
+//var directive = app.directive("SpikeAmountField");
+//console.log(directive);
+
+var config = {
+    waitForCalculate: 50 // 50 milliseconds    
+}
 
 beforeEach(function(){
 

@@ -10,6 +10,11 @@ describe("SpikeAmountField", function() {
     var $compile;
     var $rootScope; 
     
+    var waitForCalculate = 50; // milliseconds
+    
+    
+    //app.directive("SpikeAmountField").waitForCalculate = waitForCalculate;
+    
     function compileElement(html, $compile, $rootScope) {
         var element = $compile(html)($rootScope);
         $rootScope.$digest();
@@ -26,7 +31,7 @@ describe("SpikeAmountField", function() {
         setTimeout(function(){
             expect(element).toHaveValue(expectedValue);
             done();
-        }, 0.5*1000);  
+        }, waitForCalculate + 50);  
 
     };
          
@@ -54,9 +59,22 @@ describe("SpikeAmountField", function() {
             expect(resultHtml).toContain("<input");        
         });
         
-        it("\"placeholder\" attribute should berendered", function(){
+        it("\"placeholder\" attribute should be rendered", function(){
             var resultHtml = compileElement(html, $compile, $rootScope);    
             expect(resultHtml).toContain("placeholder=");            
+        });
+        
+    });
+    
+    describe("after some time from the last input", function(){
+        
+        xit("should call calculate()", function(){
+            spyOn($rootScope, "$emit");
+            //setTimeout()
+            //expect($rootScope.$emit).toHaveBeenCalled();
+            
+            waitForCalculate
+            
         });
         
     });

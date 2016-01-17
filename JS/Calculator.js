@@ -1,7 +1,3 @@
-
-// Immediately Invoked Function Expression (IIFE)
-// ref: https://en.wikipedia.org/wiki/Immediately-invoked_function_expression
-
 function Calculator(params){
     
     params = params || {};
@@ -12,16 +8,13 @@ function Calculator(params){
 
 };
 
-
 Calculator.prototype.sum = function(n1, n2) {    
     return n1+n2;
 };
 
-
 Calculator.prototype.subtract = function(n1, n2) {    
     return n1-n2;
 };
-
 
 Array.prototype.any = function(values){    
     

@@ -1,8 +1,11 @@
 
 //var app = app || angular.module("spike", []);
 
-//app.directive("spikeAmountField", function(){
-    app.directive("spikeAmountField", function(){
+var config = config || {};
+var waitForCalculate = config.waitForCalculate || 500;   // time of inactivity after while the evaluation start (milliseconds)
+
+(function(waitForCalculate) {
+app.directive("spikeAmountField", function(){
 	var directive = {
 		restrict: "E",
 		//templateUrl: "inputAmountFieldTemplate.html"
@@ -13,9 +16,11 @@
 	directive.scope = {
 		amount: "=amount",
 		placeholder: "=placeholder",
-		decimalSeparator: "="
+		decimalSeparator: "="        
 	};
-	
+    
+    directive.waitForCalculate = waitForCalculate; // time of inactivity after while the evaluation start (milliseconds)
+    
 	directive.link = function(scope, element, attr){
 		//scope.id = "spikeAmountField_" + Math.floor(Math.random()*1000000);
 		
@@ -47,7 +52,7 @@
 						{							
 							console.log("cannot evaluate \"" + normalizedText + "\".");
 						}
-					}, 1000*1);	
+					}, waitForCalculate);	
 				}
 				
 			}
@@ -77,4 +82,5 @@
 	};
 	
 	return directive;
-});
+})
+})(waitForCalculate);
