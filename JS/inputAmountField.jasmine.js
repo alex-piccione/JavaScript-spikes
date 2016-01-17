@@ -2,7 +2,7 @@
 // http://www.benlesh.com/2013/06/angular-js-unit-testing-directives.html
 // https://www.google.it/webhp?client=aff-maxthon-maxthon4&channel=t38&gws_rd=cr,ssl&ei=izAYVqOWOeHqyQO3rb2oBA#channel=t38&q=jasmine+test+element+is+found
 
-
+// // http://www.sitepoint.com/angular-testing-tips-testing-directives/
 
 describe("SpikeAmountField", function() {
    
@@ -14,10 +14,10 @@ describe("SpikeAmountField", function() {
     
     function compileElement(html, $compile, $rootScope, onEvaluate) {
         
-        $rootScope.$on("evaluate", function(){
-            alert(1);
+        /*$rootScope.$on("evaluate", function(){
+
             onEvaluate && onEvaluate();                
-        });
+        });*/
         
         var element = $compile(html)($rootScope);
         $rootScope.$digest();
@@ -29,10 +29,9 @@ describe("SpikeAmountField", function() {
     
     function compileElement_2(html, $compile, $rootScope, onEvaluate) {
         
-        $rootScope.$on("evaluate", function(){
-            alert(1);
+        /*$rootScope.$on("evaluate", function(){
             onEvaluate && onEvaluate();                
-        });
+        });*/
         
         var element = $compile(html)($rootScope);
         $rootScope.$digest();
@@ -98,42 +97,38 @@ describe("SpikeAmountField", function() {
             spyOn(scope, "$emit");
             
             scope.amount = 1.23;
-            $rootScope.amount = 1.23;
+            //$rootScope.amount = 1.23;
             $rootScope.$digest();
             
             expect(scope.$emit).toHaveBeenCalled();            
         });        
     });
-    
-    xdescribe("after some time from the last input", function(){
         
-        it("should call calculate()", function(done){
-            spyOn($rootScope, "$emit");
+    describe("when the rootSCope.amount change and there is something to evaluate", function(){        
+        
+        it("should notify and give the value", function(done){
             
-            var onEvaluate = function(){
-                alert("evaluate");                
-            };            
-                
-            var element = compileElement_2(html, $compile, $rootScope, onEvaluate);
-            
-
- console.log(scope);
-            
-            // http://www.sitepoint.com/angular-testing-tips-testing-directives/
-            
-            scope.amount = 1.23;
-            $rootScope.$digest();
-                   
-            setTimeout(function(){
-                expect($rootScope.$emit).toHaveBeenCalled();    
-                done();
-            }, waitForCalculate + 50); // extra 50 millis
-            
-            
+            var result = compileElement_2(html, $compile, $rootScope, null);
+            //var element = result.elenment;
+            var scope = result.scope;            
+                                    
+            var input = "1 + 2"; // something that must be evaluate
+                                                 
+            scope.$on("evaluate", function(event, data){              
+               expect(data.text).toBeDefined();
+               expect(data.text).toEqual(input);
+               done();                
+            });
+                        
+            scope.amount = input; 
+            $rootScope.$digest();            
         });
         
     });
     
+    
+    //xdescribe("after some time from the last input", function(){
+        //it("should notify  calculate()", function(done){
         
     describe("when the input is an integer (123)", function(){
             
@@ -147,7 +142,7 @@ describe("SpikeAmountField", function() {
                     
     });
         
-    // todo: temporary hidden
+    // todo: not yet implemented
     xdescribe("when the input is a sum of two integers (123+2)", function(){
             
         html = "<inputAmountField>";  
