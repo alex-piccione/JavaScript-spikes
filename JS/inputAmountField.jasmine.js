@@ -10,19 +10,35 @@ describe("SpikeAmountField", function() {
     var $compile;
     var $rootScope; 
     
-    var waitForCalculate = 50; // milliseconds
+      
     
-    
-    //app.directive("SpikeAmountField").waitForCalculate = waitForCalculate;
-    
-    function compileElement(html, $compile, $rootScope) {
+    function compileElement(html, $compile, $rootScope, onEvaluate) {
+        
+        $rootScope.$on("evaluate", function(){
+            alert(1);
+            onEvaluate && onEvaluate();                
+        });
+        
         var element = $compile(html)($rootScope);
         $rootScope.$digest();
             
         //var result = element.text();
         var result = element.html();
         return result;    
-    };  
+    }; 
+    
+    function compileElement_2(html, $compile, $rootScope, onEvaluate) {
+        
+        $rootScope.$on("evaluate", function(){
+            alert(1);
+            onEvaluate && onEvaluate();                
+        });
+        
+        var element = $compile(html)($rootScope);
+        $rootScope.$digest();
+        return element;
+    }; 
+     
         
     function checkValueAfterAWhile(html, input, expectedValue, done){
         var element = $compile(html)($rootScope);  
@@ -47,7 +63,8 @@ describe("SpikeAmountField", function() {
     beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_){
         // the injector unwraps the underscore (_) from around the parameter names when matching
         $compile = _$compile_;
-        $rootScope = _$rootScope_;	
+        $rootScope = _$rootScope_;	        
+        //$rootScope = _$rootScope_.$new();
     }));
 
     
@@ -68,12 +85,30 @@ describe("SpikeAmountField", function() {
     
     describe("after some time from the last input", function(){
         
-        xit("should call calculate()", function(){
+        it("should call calculate()", function(done){
             spyOn($rootScope, "$emit");
-            //setTimeout()
-            //expect($rootScope.$emit).toHaveBeenCalled();
             
-            waitForCalculate
+            var onEvaluate = function(){
+                alert("evaluate");                
+            };            
+                
+            var element = compileElement_2(html, $compile, $rootScope, onEvaluate);
+            
+            // children() is necessari because directive does not use "replace" 
+            // (children() works also with "replace" but not for directive inside other directive )
+            var scope = element.children().isolateScope(); 
+ console.log(scope);
+            
+            // http://www.sitepoint.com/angular-testing-tips-testing-directives/
+            
+            scope.amount = 1.23;
+            $rootScope.$digest();
+                   
+            setTimeout(function(){
+                expect($rootScope.$emit).toHaveBeenCalled();    
+                done();
+            }, waitForCalculate + 50); // extra 50 millis
+            
             
         });
         

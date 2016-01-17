@@ -23,13 +23,18 @@ app.directive("spikeAmountField", function(){
     
 	directive.link = function(scope, element, attr){
 		//scope.id = "spikeAmountField_" + Math.floor(Math.random()*1000000);
-		
+		//scope.$emit("evaluate");
+        //alert("$emit evaluate");
+        
 		var isEvaluating = null;
 		scope.$watch( function(scope_) {return scope_.amount}, function(newValue, oldValue){
+console.log("watch: " + newValue + " vs " + oldValue + " amount: " + scope.amount);
+            
+            
 			if(newValue !== oldValue)
 			{
-				console.log("newValue > " + newValue);
-				
+console.log("newValue > " + newValue);                
+                				
 				isEvaluating && clearTimeout(isEvaluating); // stop evaluating				
 				
 				// normalize to JavaScript (en) locale
@@ -39,12 +44,15 @@ app.directive("spikeAmountField", function(){
 				{	
 					isEvaluating = setTimeout( function(){
 					
+                        scope.$emit("evaluate");
+alert("$emit evaluate");
+                    
 						var valueResult = null;
 						try 
 						{
-							console.log("evaluate " + normalizedText);
+console.log("evaluate " + normalizedText);
 							valueResult = eval(normalizedText); 
-							console.log("amount = " + valueResult);
+console.log("amount = " + valueResult);
 							scope.amount = valueResult;	
 							scope.$apply(); // or use $timeout()
 						}
