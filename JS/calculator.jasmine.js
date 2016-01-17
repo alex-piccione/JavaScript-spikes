@@ -164,13 +164,19 @@ describe("Calculator", function(){
             helper.executeTestCases( {
                 description: 'given the string "#text" should return #result',
                 values: [
-                     { text: "123",     result: 123}
-                    ,{ text: " 12.3 ",  result: 12.3}      
-                    ,{ text: "1+2",  result: 3}
-                    ,{ text: "1.11+2.22",  result: 3.33}
-                    ,{ text: " 101.11   +202.22  ",  result: 303.33}
-                    ,{ text: "10-1",  result: 9}
-                    ,{ text: " 45.61  -  11.1",  result: 34.51}                                          
+                      { text: "123",                result: 123}
+                    , { text: " 12.3 ",             result: 12.3}      
+                    // sum
+                    , { text: "1+2",                result: 3}
+                    , { text: "1.11+2.22",          result: 3.33}
+                    , { text: " 101.11  +202.22  ", result: 303.33}
+                    , { text: "1+2+3",              result: 6}
+                    // subtract
+                    , { text: "10-1",               result: 9}
+                    , { text: " 45.61  -  11.1",    result: 34.51}      
+                    // mixed addition and subtraction
+                    , { text: "3+2-1",              result: 3+2-1}
+                    , { text: "12.03-2.5 + 12.33",  result: 12.03-2.5+12.33}                                      
                 ],
                 test: function(text, result){
                     expect(calculator.calculate(text)).toEqual(result);
