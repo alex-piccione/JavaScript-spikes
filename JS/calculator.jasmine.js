@@ -30,23 +30,18 @@ describe("Calculator", function(){
             
                 
         return {
-            testCalculate: function(text, expectedResult, params){
-                calculator = new Calculator(params);
-                var result = calculator.calculate(text);
-                expect(result).toEqual(expectedResult);
-            },
             
             // inspired by: https://github.com/desirable-objects/neckbeard.js/blob/master/src/neckbeard.js
             // https://github.com/FrankyBoy/jasmine-params/blob/master/lib/jparams.js
             // https://www.npmjs.com/package/jasmine-params
             executeTestCases: function(params){
                 params.values.forEach( function(element, index){
-                    var description = createDescription(params.description, element);                      
-                                       
+                    var description = createDescription(params.description, element);       
                     var paramNames = getParamNames(params.test);
                     var parameters = [];
+                    
                     paramNames.forEach(function(name){
-                        if(!element[name]) throw new Error('Element "' + name +'" not found in row #' + index + '" of values."');
+                        if(!element.hasOwnProperty(name)) throw new Error('Element "' + name +'" not found in row #' + (index+1) + '" of values."' + element);
                         parameters.push(element[name]);                        
                     });
          
@@ -54,21 +49,8 @@ describe("Calculator", function(){
                         params.test.apply(null, parameters);
                     });                    
                 });
-            },           
-            
-            executeTest: function(params){
-                var helper = this;
-                params.testCases.forEach(function(testCase){
-                    var description = createDescription(params.testDescription, testCase);                                        
+            },            
 
-                    return it(description, function(){
-                        //params.testFunction(testCase);
-                        params.testFunction(testCase[0], testCase[1], testCase[2]);
-                    });                    
-                   
-                });
-            }     
-            
         };
     })();    
    
@@ -85,16 +67,16 @@ describe("Calculator", function(){
             expect(a.any).toBeDefined();            
         });
         
-        it("given the array \"[1,2,5,6]\" should return true for \"2\"", function(){
-            var array = [1,2,5,6];                        
-            expect(array.any(2)).toBe(true);
-        });
-        
-        it("given the array \"[1,2,5,6]\" should return false for \"3\"", function(){
-            var array = [1,2,5,6];                        
-            expect(array.any(3)).toBe(false);
-        });
-                
+        helper.executeTestCases({
+            description: 'given the array [#array] should return #result for value #value',
+            values: [
+                  {array: [1,2,4,5], value: 2, result: true }
+                , {array: [1,2,4,5], value: 3, result: false}
+            ],
+            test: function(array, value, result){
+                expect(array.any(value)).toBe(result);                
+            }            
+        });     
         
     });
     
@@ -105,16 +87,17 @@ describe("Calculator", function(){
             expect(a.contains).toBeDefined();
         });
         
-        helper.executeTest( {
-            testDescription: "given the array #a for the value #v should return #r",
-            testCases: [
-                [ ["a", "b", "c"], "b", true ],
-                [ ["a", "b", "c"], "d", false ]                
+        helper.executeTestCases({
+            description: 'given the array [#array] for the value "#value" should return #result',
+            values: [
+                 { array:["a", "b", "c"], value: "b", result: true }
+                ,{ array:["a", "b", "c"], value: "d", result: false }  
             ],
-            testFunction: function(array, value, expectedResult){
-                expect(array.contains(value)).toBe(expectedResult);
-            }            
-        } );       
+            test: function(array, value, result){
+                expect(array.contains(value)).toBe(result);                
+            }
+        });
+    
     });
     
     describe("when created", function(){
@@ -180,6 +163,4 @@ describe("Calculator", function(){
         
     });
 
-  
 });
-
