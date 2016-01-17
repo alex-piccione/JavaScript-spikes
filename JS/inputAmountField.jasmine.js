@@ -36,7 +36,12 @@ describe("SpikeAmountField", function() {
         
         var element = $compile(html)($rootScope);
         $rootScope.$digest();
-        return element;
+        
+        // children() is necessari because directive does not use "replace" 
+        // (children() works also with "replace" but not for directive inside other directive )
+        var scope = element.children().isolateScope(); 
+        
+        return {element:element, scope:scope};
     }; 
      
         
@@ -69,8 +74,7 @@ describe("SpikeAmountField", function() {
 
     
     describe("when Angular compile", function(){  
-        
-        
+                
         it("<input> element should be rendered", function(){       
             var resultHtml = compileElement(html, $compile, $rootScope);
             expect(resultHtml).toContain("<input");        
@@ -83,7 +87,25 @@ describe("SpikeAmountField", function() {
         
     });
     
-    describe("after some time from the last input", function(){
+    
+    describe("when the rootScope.amount change the event is propagated", function(){
+        it("should be notified", function(){
+                        
+            var result = compileElement_2(html, $compile, $rootScope, null);
+            //var element = result.elenment;
+            var scope = result.scope;
+            
+            spyOn(scope, "$emit");
+            
+            scope.amount = 1.23;
+            $rootScope.amount = 1.23;
+            $rootScope.$digest();
+            
+            expect(scope.$emit).toHaveBeenCalled();            
+        });        
+    });
+    
+    xdescribe("after some time from the last input", function(){
         
         it("should call calculate()", function(done){
             spyOn($rootScope, "$emit");
@@ -94,9 +116,7 @@ describe("SpikeAmountField", function() {
                 
             var element = compileElement_2(html, $compile, $rootScope, onEvaluate);
             
-            // children() is necessari because directive does not use "replace" 
-            // (children() works also with "replace" but not for directive inside other directive )
-            var scope = element.children().isolateScope(); 
+
  console.log(scope);
             
             // http://www.sitepoint.com/angular-testing-tips-testing-directives/

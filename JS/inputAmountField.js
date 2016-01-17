@@ -27,13 +27,12 @@ app.directive("spikeAmountField", function(){
         //alert("$emit evaluate");
         
 		var isEvaluating = null;
-		scope.$watch( function(scope_) {return scope_.amount}, function(newValue, oldValue){
-console.log("watch: " + newValue + " vs " + oldValue + " amount: " + scope.amount);
-            
+		scope.$watch( function(scope_) {return scope_.amount}, function(newValue, oldValue){            
             
 			if(newValue !== oldValue)
 			{
-console.log("newValue > " + newValue);                
+console.log("newValue: " + newValue);
+                scope.$emit("amount changed");
                 				
 				isEvaluating && clearTimeout(isEvaluating); // stop evaluating				
 				
