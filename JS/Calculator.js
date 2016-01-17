@@ -79,9 +79,26 @@ Calculator.prototype.recognizeValues = function(text) {
 Calculator.prototype.calculate = function(text){
     
     var values = this.recognizeValues(text);
+    var n1, n2, operator;
     
-    if(values.length == 1)
-        return parseFloat(values[0]);
+    while(values.length > 1)
+    {
+    
+//    if(values.length == 1)
+//        return parseFloat(values[0]);
+
+        n1 = parseFloat(values[0]);
+        n2 = parseFloat(values[2]);
+        operator = values[1];
+               
+        var operationToDo = null;
+        switch (operator) {
+            case "+": operationToDo = this.sum; break;
+        }
+
+        values = values.splice(2); // remove first 2 values
+        values[0] = operationToDo(n1, n2);
+    }        
         
-    return values[0];
+    return parseFloat(values[0]);
 };

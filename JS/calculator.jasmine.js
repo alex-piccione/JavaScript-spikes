@@ -153,7 +153,8 @@ describe("Calculator", function(){
                 description: 'given the string "#text" should return #result',
                 values: [
                      { text: "123",     result: 123}
-                    ,{ text: " 12.3 ",  result: 12.3}                                
+                    ,{ text: " 12.3 ",  result: 12.3}      
+                    ,{ text: "1+2",  result: 3}                                 
                 ],
                 test: function(text, result){
                     expect(calculator.calculate(text)).toEqual(result);
