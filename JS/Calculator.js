@@ -18,6 +18,11 @@ Calculator.prototype.sum = function(n1, n2) {
 };
 
 
+Calculator.prototype.subtract = function(n1, n2) {    
+    return n1-n2;
+};
+
+
 Array.prototype.any = function(values){    
     
     if(values === undefined)
@@ -83,10 +88,6 @@ Calculator.prototype.calculate = function(text){
     
     while(values.length > 1)
     {
-    
-//    if(values.length == 1)
-//        return parseFloat(values[0]);
-
         n1 = parseFloat(values[0]);
         n2 = parseFloat(values[2]);
         operator = values[1];
@@ -94,6 +95,8 @@ Calculator.prototype.calculate = function(text){
         var operationToDo = null;
         switch (operator) {
             case "+": operationToDo = this.sum; break;
+            case "-": operationToDo = this.subtract; break;
+            default: throw new Error('Unknown or unhandled operator: "' + operator + '".');
         }
 
         values = values.splice(2); // remove first 2 values

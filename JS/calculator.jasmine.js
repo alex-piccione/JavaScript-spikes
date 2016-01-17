@@ -140,6 +140,18 @@ describe("Calculator", function(){
   
     });
     
+    describe("subtract()", function(){
+
+        it("should be able to subtract a number from another numbers", function(){     
+            var a = 10;
+            var b = 2;
+            var expectedResult = 8;      
+            var result = calculator.subtract(a, b);      
+            expect(result).toBe(expectedResult);        
+        });
+  
+    });
+    
     describe("calculate()", function(){
         
         it("should be defined", function(){
@@ -156,7 +168,9 @@ describe("Calculator", function(){
                     ,{ text: " 12.3 ",  result: 12.3}      
                     ,{ text: "1+2",  result: 3}
                     ,{ text: "1.11+2.22",  result: 3.33}
-                    ,{ text: " 101.11   +202.22  ",  result: 303.33}                                  
+                    ,{ text: " 101.11   +202.22  ",  result: 303.33}
+                    ,{ text: "10-1",  result: 9}
+                    ,{ text: " 45.61  -  11.1",  result: 34.51}                                          
                 ],
                 test: function(text, result){
                     expect(calculator.calculate(text)).toEqual(result);
