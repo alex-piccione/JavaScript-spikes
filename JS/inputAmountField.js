@@ -43,7 +43,6 @@ app.directive("spikeAmountField", function(){
 					isEvaluating = setTimeout( function(){
 					
                         scope.$emit("evaluate", {text: newValue});
-//alert("$emit evaluate");
                     
 						var valueResult = null;
 						try 
