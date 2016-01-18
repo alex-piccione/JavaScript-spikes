@@ -111,11 +111,31 @@ describe("SpikeAmountField", function() {
     
     describe("given an input with an expression, like #expression", function(){
         describe("after some time (#time millis)", function(){
-            it("should have called Calculator.calculate()", function(){
-                var calculator = Calculator();
+            it("should have called Calculator.calculate()", function(done){
+                
+                var expression = "1+2";                
+                
+                var calculator = {
+                    calculate: function(){}                   
+                };
+                
+                spyOn(calculator, "calculate");
                 
                 
+                var data = compileElement(html, $compile, $rootScope);
+                var element = data.element;
+                var scope = data.scope;
+                                
+                scope.amount = expression;
+                $rootScope.$digest();
                 
+                setTimeout(function(){
+                    
+                    done();
+                }, config.waitForCalculate+10);                
+                
+                
+                expect(calculator.calculate).toHaveBeenCalled();
             });            
         });
         
