@@ -9,38 +9,22 @@ describe("SpikeAmountField", function() {
     var html;  
     var $compile;
     var $rootScope; 
-    
-      
-    
-    function compileElement(html, $compile, $rootScope, onEvaluate) {
-        
-        /*$rootScope.$on("evaluate", function(){
-
-            onEvaluate && onEvaluate();                
-        });*/
-        
-        var element = $compile(html)($rootScope);
-        $rootScope.$digest();
-            
-        //var result = element.text();
-        var result = element.html();
-        return result;    
-    }; 
-    
-    function compileElement_2(html, $compile, $rootScope, onEvaluate) {
-        
-        /*$rootScope.$on("evaluate", function(){
-            onEvaluate && onEvaluate();                
-        });*/
-        
+          
+   
+    function compileElement(html, $compile, $rootScope) {        
+       
         var element = $compile(html)($rootScope);
         $rootScope.$digest();
         
-        // children() is necessari because directive does not use "replace" 
-        // (children() works also with "replace" but not for directive inside other directive )
+        // children() is needed because directive does not use "replace" 
+        // (children() works also with "replace" but not for directive inside another directive)
         var scope = element.children().isolateScope(); 
         
-        return {element:element, scope:scope};
+        return {
+            element:element, 
+            scope:scope, 
+            html: function(){return element.html();}
+        };
     }; 
      
         
@@ -75,12 +59,12 @@ describe("SpikeAmountField", function() {
     describe("when Angular compile", function(){  
                 
         it("<input> element should be rendered", function(){       
-            var resultHtml = compileElement(html, $compile, $rootScope);
+            var resultHtml = compileElement(html, $compile, $rootScope).html();
             expect(resultHtml).toContain("<input");        
         });
         
-        it("\"placeholder\" attribute should be rendered", function(){
-            var resultHtml = compileElement(html, $compile, $rootScope);    
+        it('"placeholder" attribute should be rendered', function(){
+            var resultHtml = compileElement(html, $compile, $rootScope).html();    
             expect(resultHtml).toContain("placeholder=");            
         });
         
@@ -90,8 +74,7 @@ describe("SpikeAmountField", function() {
     describe("when the rootScope.amount change the event is propagated", function(){
         it("should be notified", function(){
                         
-            var result = compileElement_2(html, $compile, $rootScope, null);
-            //var element = result.elenment;
+            var result = compileElement(html, $compile, $rootScope, null);            
             var scope = result.scope;
             
             spyOn(scope, "$emit");
@@ -108,8 +91,7 @@ describe("SpikeAmountField", function() {
         
         it("should notify and give the value", function(done){
             
-            var result = compileElement_2(html, $compile, $rootScope, null);
-            //var element = result.elenment;
+            var result = compileElement(html, $compile, $rootScope, null);
             var scope = result.scope;            
                                     
             var input = "1 + 2"; // something that must be evaluate
@@ -127,8 +109,18 @@ describe("SpikeAmountField", function() {
     });
     
     
-    //xdescribe("after some time from the last input", function(){
-        //it("should notify  calculate()", function(done){
+    describe("given an input with an expression, like #expression", function(){
+        describe("after some time (#time millis)", function(){
+            it("should have called Calculator.calculate()", function(){
+                var calculator = Calculator();
+                
+                
+                
+            });            
+        });
+        
+    });
+    
         
     describe("when the input is an integer (123)", function(){
             
