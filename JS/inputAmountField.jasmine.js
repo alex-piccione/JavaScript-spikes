@@ -55,6 +55,7 @@ describe("SpikeAmountField", function() {
         //$rootScope = _$rootScope_.$new();
     }));
 
+
     
     describe("when Angular compile", function(){  
                 
@@ -108,8 +109,8 @@ describe("SpikeAmountField", function() {
         
     });
     
-    
-    describe("given an input with an expression, like #expression", function(){
+    // todo: to be implemented after class Calculator was rreplaced by service 
+    xdescribe("given an input with an expression, like #expression", function(){
         describe("after some time (#time millis)", function(){
             it("should have called Calculator.calculate()", function(done){
                 
@@ -185,11 +186,9 @@ describe("SpikeAmountField", function() {
 
 });   
     
+      
     
-  
-    
-/*
-	
+/*	
 
 	describe("Template", function(){
 
@@ -243,7 +242,7 @@ describe("SpikeAmountField", function() {
 
 beforeEach(function () {
     jasmine.addMatchers({
-    
+        /* check if a field has the expected value. */ 
         toHaveValue: function(util, customEqualityTesters){
             return {
                 compare: function(input, expectedValue)

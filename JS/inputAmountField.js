@@ -47,9 +47,8 @@ app.directive("spikeAmountField", function(){
 						var valueResult = null;
 						try 
 						{
-console.log("evaluate " + normalizedText);
 							valueResult = eval(normalizedText); 
-console.log("amount = " + valueResult);
+
 							scope.amount = valueResult;	
 							scope.$apply(); // or use $timeout()
 						}
