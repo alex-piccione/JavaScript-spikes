@@ -4,7 +4,7 @@
 
 // // http://www.sitepoint.com/angular-testing-tips-testing-directives/
 
-describe("SpikeAmountField", function() {
+describe("Directive: SpikeAmountField", function() {
    
     var html;  
     var $compile;
