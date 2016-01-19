@@ -24,7 +24,31 @@ describe("Service: CalculatorService", function(){
     describe("this.parse()", function(){
         it("should exists", function(){
             expect(service.this.parse).toBeDefined();            
-        });        
+        }); 
+        
+        helper.executeTestCases({
+            description: 'given the text "#text should return #result"',
+            test: function(text, result){
+                expect(service.this.parse(text)).toEqual(result);
+            },
+            cases: [
+                  {text: "1.23", result: 1.23}
+                , {text: " 1.23 ", result: 1.23}                
+            ]
+        });  
+        
+        helper.executeTestCases({
+            description: 'given the text "#text and the decimalSeparator "#sep" should return #result"',
+            test: function(text, sep, result){
+                expect(service.this.parse(text, sep)).toEqual(result);
+            },
+            cases: [
+                  {text: "1.23", sep: ".", result: 1.23}                  
+                , {text: " 1.23 ", sep: ".", result: 1.23}        
+                , {text: "1,23", sep: ",", result: 1.23}
+                , {text: " 1,23 ", sep: ",", result: 1.23}
+            ]
+        });       
     });
     
     // todo: add tests
@@ -37,5 +61,6 @@ describe("Service: CalculatorService", function(){
     });
     
     // todo: add tests
+           
     
 });

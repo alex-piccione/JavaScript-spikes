@@ -13,7 +13,7 @@ app.factory("CalculatorService", function(){
         var argsSeparator = ";";
         return parseFloat(
             text
-            .replace(new RegExp('\\' + decimalSeparator + '|\\' + argsSeparator, 'g'), function (match) {
+            .replace(new RegExp('\\' + decimalSeparator + '|\\' + argsSeparator, 'g'), function (match) {                
             return match == decimalSeparator ? '.': ',';
             })
         );    

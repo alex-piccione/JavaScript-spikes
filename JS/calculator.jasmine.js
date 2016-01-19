@@ -4,6 +4,7 @@ describe("Calculator", function(){
 
     var calculator;    
     
+    // use the one defined in textBase.js
     var helper = (function Helper(){          
         var calculator;  
         
