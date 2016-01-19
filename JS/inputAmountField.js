@@ -5,7 +5,7 @@ var config = config || {};
 var waitForCalculate = config.waitForCalculate || 500;   // time of inactivity after while the evaluation start (milliseconds)
 
 (function(waitForCalculate) {
-app.directive("spikeAmountField", function(){
+app.directive("spikeAmountField", function(CalculatorService){
 	var directive = {
 		restrict: "E",
 		//templateUrl: "inputAmountFieldTemplate.html"
@@ -24,7 +24,7 @@ app.directive("spikeAmountField", function(){
 	directive.link = function(scope, element, attr){
 		//scope.id = "spikeAmountField_" + Math.floor(Math.random()*1000000);
 		//scope.$emit("evaluate");
-        //alert("$emit evaluate");
+        //alert("$emit evaluate");       
         
 		var isEvaluating = null;
 		scope.$watch( function(scope_) {return scope_.amount}, function(newValue, oldValue){            
@@ -34,27 +34,29 @@ app.directive("spikeAmountField", function(){
                 scope.$emit("amount changed");
                 				
 				isEvaluating && clearTimeout(isEvaluating); // stop evaluating				
-				
-				// normalize to JavaScript (en) locale
-				var normalizedText = (newValue+"").replace(scope.decimalSeparator, ".");
+								
 				// contains something different from digits or decimal separator?
-				if (normalizedText.match(/[^\d.]/g))
+				if ((newValue+"").match(/[^\d,.]/g))
 				{	
 					isEvaluating = setTimeout( function(){
 					
-                        scope.$emit("evaluate", {text: newValue});
-                    
+                        scope.$emit("evaluate", {text: newValue});  
+                                            
 						var valueResult = null;
 						try 
 						{
-							valueResult = eval(normalizedText); 
+							// normalize to JavaScript (en) locale
+				            //var normalizedText = (newValue+"").replace(scope.decimalSeparator, ".");  
+                            //valueResult = eval(normalizedText);
+                            
+                            valueResult = CalculatorService.eval(newValue, scope.decimalSeparator); 
 
 							scope.amount = valueResult;	
 							scope.$apply(); // or use $timeout()
 						}
 						catch(error)
 						{							
-							console.log("cannot evaluate \"" + normalizedText + "\".");
+							console.log("cannot evaluate \"" + newValue + "\".");
 						}
 					}, waitForCalculate);	
 				}

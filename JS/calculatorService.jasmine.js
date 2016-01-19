@@ -10,26 +10,30 @@ describe("Service: CalculatorService", function(){
         
     });
     
-    it("should exists", function(){
-        
-        //var calculator = calculatorService();
+    it("should exists", function(){        
         expect(service).toBeDefined();
     });
     
-    
-    describe("parse()", function(){
+    describe("eval()", function(){
         it("should exists", function(){
-            expect(service.parse).toBeDefined();            
+            expect(service.eval).toBeDefined();            
+        });        
+    });
+    
+    
+    describe("this.parse()", function(){
+        it("should exists", function(){
+            expect(service.this.parse).toBeDefined();            
         });        
     });
     
     // todo: add tests
     
     
-    describe("render()", function(){
+    describe("this.render()", function(){
         it("should exists", function(){
-            expect(service.render).toBeDefined();            
-        });        
+            expect(service.this.render).toBeDefined();            
+        });      
     });
     
     // todo: add tests
