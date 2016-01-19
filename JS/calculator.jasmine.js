@@ -124,9 +124,24 @@ describe("Calculator", function(){
                 var testResult = calculator.recognizeValues(text);
                 expect(testResult).toEqual(result);    
             }
-        });  
-        
+        });          
     });
+    
+    
+    describe("parse()", function(){
+        helper.executeTestCases({
+           description: 'given the text "#input" should return #output', 
+           values:[
+                { input: "1", output: 1}
+               ,{ input: "1.3", output: 1.3}
+           ],
+           test: function(input, output){
+               var result = calculator.parse(input);
+               expect(result).toEqual(output);
+           }
+        });        
+    });
+    
     
     describe("sum()", function(){
 
