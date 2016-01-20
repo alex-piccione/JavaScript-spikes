@@ -38,7 +38,7 @@ describe("Service: CalculatorService", function(){
         });  
         
         helper.executeTestCases({
-            description: 'given the text "#text and the decimalSeparator "#sep" should return #result"',
+            description: 'given the text "#text and the decimals separator "#sep" should return #result"',
             test: function(text, sep, result){
                 expect(service.this.parse(text, sep)).toEqual(result);
             },
@@ -47,20 +47,29 @@ describe("Service: CalculatorService", function(){
                 , {text: " 1.23 ", sep: ".", result: 1.23}        
                 , {text: "1,23", sep: ",", result: 1.23}
                 , {text: " 1,23 ", sep: ",", result: 1.23}
+                // todo: add tests
             ]
         });       
     });
-    
-    // todo: add tests
-    
-    
+        
+        
     describe("this.render()", function(){
         it("should exists", function(){
             expect(service.this.render).toBeDefined();            
         });      
+        
+        helper.executeTestCases({            
+            description: 'given the value #value and the decimals separator #sep should return "#result"',
+            test: function(value, sep, result){
+                expect(service.this.render(value, sep)).toEqual(result);                
+            },
+            cases: [
+                  { value: 1, sep:".", result: "1"}
+                , { value: 1.23, sep:".", result: "1.23"}
+                // todo: add tests
+            ]
+        });
     });
-    
-    // todo: add tests
            
     
 });
