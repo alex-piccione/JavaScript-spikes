@@ -17,7 +17,20 @@ describe("Service: CalculatorService", function(){
     describe("eval()", function(){
         it("should exists", function(){
             expect(service.eval).toBeDefined();            
-        });        
+        });    
+        
+        helper.executeTestCases({
+            
+            description: 'when input is #input and decimals separator is "#sep" result should be #result',
+            test: function(input, sep, result){
+                expect(service.eval(input, sep)).toEqual(result);
+            },
+            cases: [
+                  { input: "1+2", sep: ".", result: 3}
+                , { input: "10-3", sep: ".", result: 7}                
+            ]
+        });
+            
     });
     
     

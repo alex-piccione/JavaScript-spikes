@@ -33,7 +33,7 @@ describe("Directive: SpikeAmountField", function() {
         setTimeout(function(){
             expect(element).toHaveValue(expectedValue);
             done();
-        }, waitForCalculate + 50);  
+        }, waitForCalculate + 10);  
     };         
       
     beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _CalculatorService_){
@@ -154,32 +154,37 @@ describe("Directive: SpikeAmountField", function() {
                     
     });
         
-    // todo: not yet implemented
-    xdescribe("when the input is a sum of two integers (123+2)", function(){
+        
+    describe("*Functional Tests*", function() {
+        
+        // todo: not yet implemented
+        describe("when the input is a sum of two integers (123+2)", function(){
+                
+            var html = "<inputAmountField>";  
+            var input = "123+2";
+            var expectedResult = 125;
+
+            it("the result should be 125", function(done){
+                checkValueAfterAWhile(html, input, expectedResult, done);            
+            }); 
+                        
+        });
             
-        html = "<inputAmountField>";  
-        var input = "123+2";
-        var expectedResult = 125;
+        
+        describe("when culture is set to \"en\" and the input is \"123.45\"", function(){
+            
+            var html = "<inputAmountField culture=\"en\">";
+            var input = "123.45";
+            var expectedResult = "123.45";
+            
 
-        it("the result should be 125", function(done){
-            checkValueAfterAWhile(html, input, expectedResult, done);            
-        }); 
-                    
-    });
-        
-    
-    describe("when culture is set to \"en\" and the input is \"123.45\"", function(){
-        
-        html = "<inputAmountField culture=\"en\">";
-        var input = "123.45";
-        var expectedResult = "123.45";
-        
+            it("the result should be \"123.45\"", function(done){
+                checkValueAfterAWhile(html, input, expectedResult, done);                    
+            });  
 
-        it("the result should be \"123.45\"", function(done){
-            checkValueAfterAWhile(html, input, expectedResult, done);                    
         });  
-
-    });      
+    
+    });    
 
 
 });   
