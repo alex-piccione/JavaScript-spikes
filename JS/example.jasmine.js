@@ -45,8 +45,7 @@ describe("Given inputAmountField directive", function(){
             var result = element.text();
             result = element.html();            
            
-            expect(result).toContain("<input");
-            
+            expect(result).toContain("<input");            
         });
         
     });  
