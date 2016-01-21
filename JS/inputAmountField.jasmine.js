@@ -72,7 +72,8 @@ describe("Directive: SpikeAmountField", function() {
     });
     
     
-    describe("when the rootScope.amount change the event is propagated", function(){
+    // todo: why it doesn't work with $rootScope?
+    describe("when the scope.amount change the event is propagated", function(){
         it("should be notified", function(){
                         
             var result = compileElement(html, $compile, $rootScope, null);            

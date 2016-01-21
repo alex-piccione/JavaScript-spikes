@@ -83,5 +83,11 @@ describe("Service: CalculatorService", function(){
         });
     });
            
+    describe("eval()", function(){
+        it("should exists", function(){
+            expect(service.eval).toBeDefined();            
+        });
+        
+    });
     
 });
