@@ -40,15 +40,14 @@ app.directive("spikeAmountField", function(CalculatorService){
 				{	
 					isEvaluating = setTimeout( function(){
 					
-                        scope.$emit("evaluate", {text: newValue});  
+                        scope.$emit("evaluate", {text: newValue});                
                                             
 						var valueResult = null;
 						try 
 						{
 							// normalize to JavaScript (en) locale
 				            //var normalizedText = (newValue+"").replace(scope.decimalSeparator, ".");  
-                            //valueResult = eval(normalizedText);
-                            
+                            //valueResult = eval(normalizedText);                            
                             valueResult = CalculatorService.eval(newValue, scope.decimalSeparator); 
 
 							scope.amount = valueResult;	

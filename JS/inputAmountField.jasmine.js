@@ -8,23 +8,27 @@ describe("Directive: SpikeAmountField", function() {
    
     var html;  
     var $compile;
-    var $rootScope; 
+    var $rootScope;
+    var element;
+    var scope;
+    var CalculatorService;
           
    
     function compileElement(html, $compile, $rootScope) {        
        
-        var element = $compile(html)($rootScope);
-        $rootScope.$digest();
+        element = $compile(html)($rootScope);
         
         // children() is needed because directive does not use "replace" 
         // (children() works also with "replace" but not for directive inside another directive)
-        var scope = element.children().isolateScope(); 
+        scope = element.children().isolateScope(); 
         
-        return {
+        $rootScope.$digest();
+        
+        /*return {
             element:element, 
             scope:scope, 
             html: function(){return element.html();}
-        };
+        };*/
     }; 
      
         
@@ -36,36 +40,30 @@ describe("Directive: SpikeAmountField", function() {
             expect(element).toHaveValue(expectedValue);
             done();
         }, waitForCalculate + 50);  
-
-    };
-         
-
-    beforeEach(function(){
-            
-        html = "<div>Amount: <spike-amount-field></div>";   // default
-        html = "<div>Amount: <spike:amount-field placeholder=\"0.00\" decimal-separator=\"'.'\" thousand-separator=\".\" amount=\"amountValue\" ></spike:amount-field></div>";
-        
-    });	      
-  
-       
-    beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_){
+    };         
+      
+    beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _CalculatorService_){
         // the injector unwraps the underscore (_) from around the parameter names when matching
         $compile = _$compile_;
         $rootScope = _$rootScope_;	        
         //$rootScope = _$rootScope_.$new();
+        CalculatorService = _CalculatorService_;
+        
+        html = "<div>Amount: <spike:amount-field placeholder=\"0.00\" decimal-separator=\"'.'\" thousand-separator=\".\" amount=\"amountValue\" ></spike:amount-field></div>";
+        compileElement(html, $compile, $rootScope);        
     }));
 
 
     
-    describe("when Angular compile", function(){  
+    describe("when directive was compiled", function(){  
                 
         it("<input> element should be rendered", function(){       
-            var resultHtml = compileElement(html, $compile, $rootScope).html();
+            var resultHtml = element.html();
             expect(resultHtml).toContain("<input");        
         });
         
         it('"placeholder" attribute should be rendered', function(){
-            var resultHtml = compileElement(html, $compile, $rootScope).html();    
+            var resultHtml = element.html(); 
             expect(resultHtml).toContain("placeholder=");            
         });
         
@@ -73,11 +71,8 @@ describe("Directive: SpikeAmountField", function() {
     
     
     describe("when the rootScope.amount change the event is propagated", function(){
-        it("should be notified", function(){
-                        
-            var result = compileElement(html, $compile, $rootScope, null);            
-            var scope = result.scope;
-            
+        it("should be notified", function(){                        
+           
             spyOn(scope, "$emit");
             
             scope.amount = 1.23;
@@ -89,14 +84,10 @@ describe("Directive: SpikeAmountField", function() {
     });
         
     describe("when the rootSCope.amount change and there is something to evaluate", function(){        
+                
+        var input = "1 + 2"; // something that must be evaluate            
         
-        it("should notify and give the value", function(done){
-            
-            var result = compileElement(html, $compile, $rootScope, null);
-            var scope = result.scope;            
-                                    
-            var input = "1 + 2"; // something that must be evaluate
-                                                 
+        it("should notify and give the value", function(done){  
             scope.$on("evaluate", function(event, data){              
                expect(data.text).toBeDefined();
                expect(data.text).toEqual(input);
@@ -106,6 +97,16 @@ describe("Directive: SpikeAmountField", function() {
             scope.amount = input; 
             $rootScope.$digest();            
         });
+        
+        it("should call CalculatorService.eval()", function(done){
+            
+            spyOn(CalculatorService, "eval");
+            
+            scope.amount = input; 
+            $rootScope.$digest();  
+            
+            expect(CalculatorService.eval).toHaveBeenCalled();
+        });        
         
     });
     
@@ -140,8 +141,7 @@ describe("Directive: SpikeAmountField", function() {
             });            
         });
         
-    });
-    
+    });    
         
     describe("when the input is an integer (123)", function(){
             
@@ -180,8 +180,7 @@ describe("Directive: SpikeAmountField", function() {
             checkValueAfterAWhile(html, input, expectedResult, done);                    
         });  
 
-    });
-      
+    });      
 
 
 });   
