@@ -12,7 +12,7 @@ app.directive("spikeAmountField", function(CalculatorService){
 		template: '<input type="text" class="form-input" placeholder="{{placeholder}}" ng-model="amount" >'
 			+ ' decimal separator: {{decimalSeparator}}'	
 	};
-	
+	        
 	directive.scope = {
 		amount: "=amount",
 		placeholder: "=placeholder",

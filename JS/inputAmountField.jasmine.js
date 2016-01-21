@@ -9,6 +9,8 @@ describe("Directive: SpikeAmountField", function() {
     var html;  
     var $compile;
     var $rootScope; 
+    
+    var CalculatorService;
           
    
     function compileElement(html, $compile, $rootScope) {        
@@ -48,11 +50,13 @@ describe("Directive: SpikeAmountField", function() {
     });	      
   
        
-    beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_){
+    beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _CalculatorService_){
         // the injector unwraps the underscore (_) from around the parameter names when matching
         $compile = _$compile_;
         $rootScope = _$rootScope_;	        
         //$rootScope = _$rootScope_.$new();
+        CalculatorService = _CalculatorService_;        
+        
     }));
 
 
@@ -67,6 +71,11 @@ describe("Directive: SpikeAmountField", function() {
         it('"placeholder" attribute should be rendered', function(){
             var resultHtml = compileElement(html, $compile, $rootScope).html();    
             expect(resultHtml).toContain("placeholder=");            
+        });
+        
+        it("should have CalculatorService", function(){
+            var scope = compileElement(html, $compile, $rootScope);            
+            expect(CalculatorService).toBeDefined();            
         });
         
     });
@@ -106,8 +115,8 @@ describe("Directive: SpikeAmountField", function() {
                         
             scope.amount = input; 
             $rootScope.$digest();            
-        });
-        
+        });        
+                
     });
     
     // todo: to be implemented after class Calculator was rreplaced by service 

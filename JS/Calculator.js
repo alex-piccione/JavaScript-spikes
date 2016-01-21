@@ -98,26 +98,3 @@ Calculator.prototype.calculate = function(text){
         
     return parseFloat(values[0]);
 };
-
-
-// inspired by: http://mathjs.org/examples/browser/custom_separators.html.html
-
-Calculator.prototype.parse = function(text, decimalSeparator){
-    // replace the custom separators in the input with the default separators
-    var argsSeparator = ";";
-    return parseFloat(
-        text
-        .replace(new RegExp('\\' + decimalSeparator + '|\\' + argsSeparator, 'g'), function (match) {
-          return match == decimalSeparator ? '.': ',';
-        })
-    );    
-};
-
-Calculator.prototype.render = function(value, decimalSeparator){
-    // replace the default separators in the output with custom separators
-    var argsSeparator = ";";
-    return value.toString()
-        .replace(new RegExp(',|\\.', 'g'), function (match) {
-          return match == '.' ? decimalSeparator : argsSeparator;
-        });    
-};

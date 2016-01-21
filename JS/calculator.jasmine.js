@@ -127,23 +127,8 @@ describe("Calculator", function(){
             }
         });          
     });
-    
-    
-    describe("parse()", function(){
-        helper.executeTestCases({
-           description: 'given the text "#input" should return #output', 
-           values:[
-                { input: "1", output: 1}
-               ,{ input: "1.3", output: 1.3}
-           ],
-           test: function(input, output){
-               var result = calculator.parse(input);
-               expect(result).toEqual(output);
-           }
-        });        
-    });
-    
-    
+        
+   
     describe("sum()", function(){
 
         it("should be able to sum two numbers", function(){     
