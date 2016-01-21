@@ -59,6 +59,18 @@ describe("Service: CalculatorService", function(){
         });      
         
         helper.executeTestCases({            
+            description: 'given the value #value should return "#result"',
+            test: function(value, result){
+                expect(service.this.render(value)).toEqual(result);                
+            },
+            cases: [
+                  { value: 1, result: "1"}
+                , { value: 1.23, result: "1.23"}
+                // todo: add tests
+            ]
+        });
+        
+        helper.executeTestCases({            
             description: 'given the value #value and the decimals separator #sep should return "#result"',
             test: function(value, sep, result){
                 expect(service.this.render(value, sep)).toEqual(result);                

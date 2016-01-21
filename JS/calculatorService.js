@@ -11,21 +11,17 @@ app.factory("CalculatorService", function(){
     this.parse = function(text, decimalSeparator){
         // replace the custom separators in the input with the default separators
         var argsSeparator = ";";
-        return parseFloat(
-            text
+        return parseFloat(text
             .replace(new RegExp('\\' + decimalSeparator + '|\\' + argsSeparator, 'g'), function (match) {                
-            return match == decimalSeparator ? '.': ',';
+                return match == decimalSeparator ? '.': ',';
             })
         );    
     };
 
     this.render = function(value, decimalSeparator){
-        // replace the default separators in the output with custom separators
-        var argsSeparator = ";";
-        return value.toString()
-            .replace(new RegExp(',|\\.', 'g'), function (match) {
-            return match == '.' ? decimalSeparator : argsSeparator;
-            });    
+        //if(decimalSeparator === undefined) throw Error('"decimalSeparator" parameter is missing');
+        decimalSeparator = decimalSeparator || ".";
+        return value.toString().replace(".", decimalSeparator);
     };
             
 
