@@ -22,13 +22,7 @@ describe("Directive: SpikeAmountField", function() {
         // (children() works also with "replace" but not for directive inside another directive)
         scope = element.children().isolateScope(); 
         
-        $rootScope.$digest();
-        
-        /*return {
-            element:element, 
-            scope:scope, 
-            html: function(){return element.html();}
-        };*/
+        $rootScope.$digest();        
     }; 
      
         
@@ -83,10 +77,11 @@ describe("Directive: SpikeAmountField", function() {
         });        
     });
         
-    describe("when the rootSCope.amount change and there is something to evaluate", function(){        
+    describe("when the rootSCope.amount changes and there is something to evaluate", function(){        
                 
         var input = "1 + 2"; // something that must be evaluate            
         
+         
         it("should notify and give the value", function(done){  
             scope.$on("evaluate", function(event, data){              
                expect(data.text).toBeDefined();
@@ -98,15 +93,19 @@ describe("Directive: SpikeAmountField", function() {
             $rootScope.$digest();            
         });
         
-        it("should call CalculatorService.eval()", function(done){
+        it("should call CalculatorService.eval() after some time", function(done){
             
             spyOn(CalculatorService, "eval");
             
             scope.amount = input; 
             $rootScope.$digest();  
             
-            expect(CalculatorService.eval).toHaveBeenCalled();
-        });        
+            setTimeout(function(){  
+                expect(CalculatorService.eval).toHaveBeenCalled();    
+                done();                
+            }, config.waitForCalculate+10 );           
+            
+        });      
         
     });
     

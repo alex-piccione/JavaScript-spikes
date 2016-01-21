@@ -34,7 +34,7 @@ app.factory("CalculatorService", function(){
     service.this = this;   // expse internal implementation hidden by closure
         
     
-    service.eval = function(test){
+    service.eval = function(){
         return 1;
     };  
     
