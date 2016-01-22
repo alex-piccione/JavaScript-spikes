@@ -103,7 +103,7 @@ app.factory("CalculatorService", function(){
     service.this = this;   // expse internal implementation hidden by closure
         
     /**
-     * Evaluate the given expression and return the result.
+     * Evaluates the given expression and return the result.
      * It uses the given decimals separator to evaluate and to format the result.
      */
     service.eval = function(text, decimalSeparator){
