@@ -4,6 +4,9 @@
 
 // // http://www.sitepoint.com/angular-testing-tips-testing-directives/
 
+var _el;
+var _el2;
+
 describe("Directive: SpikeAmountField", function() {
    
     var html;  
@@ -13,11 +16,18 @@ describe("Directive: SpikeAmountField", function() {
     var scope;
     var CalculatorService;
           
+    //var html = "<spikeAmountField />";    // not recognized
+    //var html = "<SpikeAmountField />";    // not recognized        
+    //var html = "<spikeAmount-Field />";   // not recognized
+     
+    //var html = "<spike-amount-field />";  // ok
+    //var html = "<spike:amount_field />";  // ok
+          
    
     function compileElement(html, $compile, $rootScope) {        
        
         element = $compile(html)($rootScope);
-        
+      
         // children() is needed because directive does not use "replace" 
         // (children() works also with "replace" but not for directive inside another directive)
         scope = element.children().isolateScope(); 
@@ -27,11 +37,16 @@ describe("Directive: SpikeAmountField", function() {
      
         
     function checkValueAfterAWhile(html, input, expectedValue, done){
-        var element = $compile(html)($rootScope);  
-        element.val(input);                         
+        element = $compile(html)($rootScope);  
+        var field = element.find("input");
+        if(field.length == 0) throw new Error('<input> field not found. Check element declaration syntax (es. "spike:amount-field").');
+        field = $(field[0]);
+        if(field.prop("tagName") !== "INPUT") throw new Error('Field is not an <input>. Field: "' + field.prop("tagName") + '".');
+
+        field.val(input);                      
                 
         setTimeout(function(){
-            expect(element).toHaveValue(expectedValue);
+            expect(field).toHaveValue(expectedValue);
             done();
         }, waitForCalculate + 10);  
     };         
@@ -143,8 +158,8 @@ describe("Directive: SpikeAmountField", function() {
     });    
         
     describe("when the input is an integer (123)", function(){
-            
-        html = "<inputAmountField>";  
+          
+        var html = "<spike:amount-field />";   
         var input = 123;
         var expectedResult = input.toString();
 
@@ -160,9 +175,9 @@ describe("Directive: SpikeAmountField", function() {
         // todo: not yet implemented
         describe("when the input is a sum of two integers (123+2)", function(){
                 
-            var html = "<inputAmountField>";  
-            var input = "123+2";
-            var expectedResult = 125;
+            var html = "<spike-Amount-Field>";
+            var input = "123+20";
+            var expectedResult = 143;
 
             it("the result should be 125", function(done){
                 checkValueAfterAWhile(html, input, expectedResult, done);            
@@ -173,7 +188,7 @@ describe("Directive: SpikeAmountField", function() {
         
         describe("when culture is set to \"en\" and the input is \"123.45\"", function(){
             
-            var html = "<inputAmountField culture=\"en\">";
+            var html = "<spike:Amount-Field culture=\"en\">";
             var input = "123.45";
             var expectedResult = "123.45";
             

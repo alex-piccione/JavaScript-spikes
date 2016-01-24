@@ -43,7 +43,7 @@ var helper = (function Helper(){
         // https://github.com/FrankyBoy/jasmine-params/blob/master/lib/jparams.js
         // https://www.npmjs.com/package/jasmine-params
         executeTestCases: function(params){
-console.log(params);
+
             params.cases.forEach( function(element, index){
                 var description = createDescription(params.description, element);       
                 var paramNames = getParamNames(params.test);
