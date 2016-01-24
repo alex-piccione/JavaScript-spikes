@@ -123,39 +123,7 @@ describe("Directive: SpikeAmountField", function() {
         });      
         
     });
-    
-    // todo: to be implemented after class Calculator was rreplaced by service 
-    xdescribe("given an input with an expression, like #expression", function(){
-        describe("after some time (#time millis)", function(){
-            it("should have called Calculator.calculate()", function(done){
-                
-                var expression = "1+2";                
-                
-                var calculator = {
-                    calculate: function(){}                   
-                };
-                
-                spyOn(calculator, "calculate");
-                
-                
-                var data = compileElement(html, $compile, $rootScope);
-                var element = data.element;
-                var scope = data.scope;
-                                
-                scope.amount = expression;
-                $rootScope.$digest();
-                
-                setTimeout(function(){
-                    
-                    done();
-                }, config.waitForCalculate+10);                
-                
-                
-                expect(calculator.calculate).toHaveBeenCalled();
-            });            
-        });
-        
-    });    
+   
         
     describe("when the input is an integer (123)", function(){
           
@@ -170,9 +138,8 @@ describe("Directive: SpikeAmountField", function() {
     });
         
         
-    describe("*Functional Tests*", function() {
+    describe("*Integration Tests*", function() {
         
-        // todo: not yet implemented
         describe("when the input is a sum of two integers (123+2)", function(){
                 
             var html = "<spike-Amount-Field>";
@@ -186,75 +153,32 @@ describe("Directive: SpikeAmountField", function() {
         });
             
         
-        describe("when culture is set to \"en\" and the input is \"123.45\"", function(){
+        describe('when decimals separator is "."', function(){ 
+            describe('and input is "123.45"', function(){
             
-            var html = "<spike:Amount-Field culture=\"en\">";
-            var input = "123.45";
-            var expectedResult = "123.45";
-            
+                var html = "<spike:Amount-Field decimalSeparator=\"en\">";
+                var input = "123.45";
+                var expectedResult = "123.45";            
 
-            it("the result should be \"123.45\"", function(done){
-                checkValueAfterAWhile(html, input, expectedResult, done);                    
-            });  
+                it('the result should be "123.45"', function(done){
+                    checkValueAfterAWhile(html, input, expectedResult, done);                    
+                }); 
+            });
 
         });  
+        
+        describe('when decimals sparator is ","', function(){
+            describe('and input is "123,45"', function(){
+                // todo: to be implemented
+            });   
+        });
     
     });    
 
 
 });   
     
-      
-    
-/*	
 
-	describe("Template", function(){
-
-		it("render <input>", function()
-		{
-      alert(12);
-      console.log(element);
-      expect(element.find("input").length).toEqual(1);      
-    });
-    
-    it("render <input> 2", function(){
-      var html = "<input AmountField decimalSeparator=','>";
-      var element = angular.element(html);
-      var scope = $rootScope.$new();
-      alert(11);
-      $compile(element)(scope);      
-      scope.$digest();   
-      
-    });
-		
-		xit("", function()
-		{
-			var template = "<input AmountField decimalSeparator=','>";
-      
-     // element = angular.element(template);
-      //var x = $compile(element);
-      console.log(element);
-      var input = element.find("input");
-      var input_2 = element.find("input_2");
-      
-      //alert(input);
-      //alert(input_2);
-      console.log(input);
-      console.log(input_2);
-      expect(input).not.toBeNull();
-      expect(input_2).not.toBeNull();
-			//var form = $compile(template);
-			//var input = form.find("input");
-			
-			//expect(input).not.beNull();
-			
-		});
-		
-	});
-	
-});
-
-*/
 
 /* custom matchers */
 
