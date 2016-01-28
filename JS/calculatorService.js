@@ -124,6 +124,7 @@ app.factory("CalculatorService", function(){
     /**
      * Evaluates the given expression and return the result.
      * It uses the given decimals separator to evaluate and to format the result.
+     * @return the evaluation result, as a string formatted with the decimal separator passed.
      */
     service.eval = function(text, decimalSeparator){
         var values = recognizeValues(text);

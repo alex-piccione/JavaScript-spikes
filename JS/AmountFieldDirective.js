@@ -12,78 +12,69 @@ app.directive("spikeAmountField", function(CalculatorService){
 		template: '<input type="text" class="form-input" placeholder="{{placeholder}}" ng-model="amount" >'
 			+ ' decimal separator: {{decimalSeparator}}'	
 	};
+<<<<<<< HEAD
 	        
 	directive.scope = {
+=======
+    
+   	directive.scope = {
+>>>>>>> 9f5674fddadc5506bd77fd164812e44e8d80d79b
 		amount: "=amount",
 		placeholder: "=placeholder",
 		decimalSeparator: "="        
 	};
     
     directive.waitForCalculate = waitForCalculate; // time of inactivity after which the evaluation start (milliseconds)
+    directive.isEvaluating = false;
+    
+    directive.eval = function(value, scope){       
+
+        scope.$emit("eval!");
+                        
+        directive.isEvaluating && clearTimeout(directive.isEvaluating); // stop evaluating				
+                        
+        // contains something different from digits or decimal separator?
+        if ((value+"").match(/[^\d,.]/g))
+        {	
+            directive.isEvaluating = setTimeout( function(){
+            
+                scope.$emit("evaluate", {text: value});                
+console.log("eval: " + value);                                            
+                var valueResult = null;
+                try 
+                {                        
+                    valueResult = CalculatorService.eval(value, scope.decimalSeparator); 
+
+                    scope.amount = valueResult;	
+                    scope.$apply(); // or use $timeout()
+                }
+                catch(error)
+                {							
+                    console.log("Error on evaluating \"" + value + "\". " + error);
+                }
+            }, waitForCalculate);	
+        };
+    };
     
 	directive.link = function(scope, element, attr){
 		//scope.id = "spikeAmountField_" + Math.floor(Math.random()*1000000);
-		//scope.$emit("evaluate");
-        //alert("$emit evaluate");       
-        
-		var isEvaluating = null;
-		scope.$watch( function(scope_) {return scope_.amount}, function(newValue, oldValue){            
-            
-			if(newValue !== oldValue)
-			{
-                scope.$emit("amount changed");
-                				
-				isEvaluating && clearTimeout(isEvaluating); // stop evaluating				
-								
-				// contains something different from digits or decimal separator?
-				if ((newValue+"").match(/[^\d,.]/g))
-				{	
-					isEvaluating = setTimeout( function(){
-					
-                        scope.$emit("evaluate", {text: newValue});                
-                                            
-						var valueResult = null;
-						try 
-						{
-							// normalize to JavaScript (en) locale
-				            //var normalizedText = (newValue+"").replace(scope.decimalSeparator, ".");  
-                            //valueResult = eval(normalizedText);                            
-                            valueResult = CalculatorService.eval(newValue, scope.decimalSeparator); 
 
-							scope.amount = valueResult;	
-							scope.$apply(); // or use $timeout()
-						}
-						catch(error)
-						{							
-							console.log("cannot evaluate \"" + newValue + "\".");
-						}
-					}, waitForCalculate);	
-				}
-				
-			}
-		
-		})
-		/*
-		//element.on("keyup", function(event){
-		$(field).on("keyup", function(event){
-			var field = element.find("#" + scope.id);
-			
-			console.log(event.keyCode);
-			
-			//var char_ = event.keyCode;
+        // scope is not directive.scope;
+
+		scope.$watch( function(scope_) {return scope_.amount}, function(newValue, oldValue){            
+console.log("eval: " + newValue);      
+			 if(newValue !== oldValue)
+                directive.eval(newValue, scope);		
+		})	
+         
+        var field = element.find("input");
+
+		$(field).on("keyup", function(event){	
+console.log("keyup: " + event.keyCode);
 			if(event.keyCode == 13) // return
-			{
-				var amount = eval(field.val());
-				scope.amount = amount;				
-			}		
-			//else
-			//	scope.evaluate();
+                directive.eval( field.val(), scope );
+        });	
 			
-			//console.log(field.val());
-			
-			//var operators = ['+', '-', 'x', '÷'];	
-		});	
-		*/		
 	};
 	
 	return directive;

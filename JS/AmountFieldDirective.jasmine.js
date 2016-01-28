@@ -42,8 +42,11 @@ describe("Directive: SpikeAmountField", function() {
         if(field.length == 0) throw new Error('<input> field not found. Check element declaration syntax (es. "spike:amount-field").');
         field = $(field[0]);
         if(field.prop("tagName") !== "INPUT") throw new Error('Field is not an <input>. Field: "' + field.prop("tagName") + '".');
-
-        field.val(input);                      
+console.log(input);
+        field.val(input).trigger("input");
+        
+        $rootScope.$apply();      
+        //$rootScope.$digest();              
                 
         setTimeout(function(){
             expect(field).toHaveValue(expectedValue);
@@ -125,10 +128,10 @@ describe("Directive: SpikeAmountField", function() {
     });
    
         
-    describe("when the input is an integer (123)", function(){
+    describe("when the input is an integer (126)", function(){
           
-        var html = "<spike:amount-field />";   
-        var input = 123;
+        var html = "<spike:amount-field />";           
+        var input = 126;
         var expectedResult = input.toString();
 
         it("the result should be the same integer", function(done){
