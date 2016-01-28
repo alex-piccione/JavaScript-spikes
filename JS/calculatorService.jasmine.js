@@ -36,6 +36,7 @@ describe("Service: CalculatorService", function(){
                 , {text: " 1.23 ", result: 1.23}                
             ]
         });  
+        });    
         
         helper.executeTestCases({
             description: 'given the text "#text and the decimals separator "#sep" should return #result"',
@@ -74,14 +75,22 @@ describe("Service: CalculatorService", function(){
             description: 'given the value #value and the decimals separator #sep should return "#result"',
             test: function(value, sep, result){
                 expect(service.this.render(value, sep)).toEqual(result);                
+=======
+            
+            description: 'when input is #input and decimals separator is "#sep" result should be #result',
+            test: function(input, sep, result){
+                expect(service.eval(input, sep)).toEqual(result);
+>>>>>>> .merge_file_a02780
             },
             cases: [
-                  { value: 1, sep:".", result: "1"}
-                , { value: 1.23, sep:".", result: "1.23"}
-                // todo: add tests
+                  { input: "1+2", sep: ".", result: "3"}
+                , { input: "10-3", sep: ".", result: "7"}
+                , { input: "123+2", sep: ".", result: "125"}                
             ]
         });
+            
     });
+<<<<<<< .merge_file_a02196
            
     describe("eval()", function(){
         it("should exists", function(){
@@ -89,5 +98,7 @@ describe("Service: CalculatorService", function(){
         });
         
     });
+=======
+>>>>>>> .merge_file_a02780
     
 });

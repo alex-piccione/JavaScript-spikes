@@ -2,7 +2,7 @@
 //var app = app || angular.module("spike", []);
 
 var config = config || {};
-var waitForCalculate = config.waitForCalculate || 500;   // time of inactivity after while the evaluation start (milliseconds)
+var waitForCalculate = config.waitForCalculate || 3.5 *1000;   // time of inactivity after which the evaluation start (milliseconds)
 
 (function(waitForCalculate) {
 app.directive("spikeAmountField", function(CalculatorService){
@@ -19,7 +19,7 @@ app.directive("spikeAmountField", function(CalculatorService){
 		decimalSeparator: "="        
 	};
     
-    directive.waitForCalculate = waitForCalculate; // time of inactivity after while the evaluation start (milliseconds)
+    directive.waitForCalculate = waitForCalculate; // time of inactivity after which the evaluation start (milliseconds)
     
 	directive.link = function(scope, element, attr){
 		//scope.id = "spikeAmountField_" + Math.floor(Math.random()*1000000);
@@ -40,15 +40,14 @@ app.directive("spikeAmountField", function(CalculatorService){
 				{	
 					isEvaluating = setTimeout( function(){
 					
-                        scope.$emit("evaluate", {text: newValue});  
+                        scope.$emit("evaluate", {text: newValue});                
                                             
 						var valueResult = null;
 						try 
 						{
 							// normalize to JavaScript (en) locale
 				            //var normalizedText = (newValue+"").replace(scope.decimalSeparator, ".");  
-                            //valueResult = eval(normalizedText);
-                            
+                            //valueResult = eval(normalizedText);                            
                             valueResult = CalculatorService.eval(newValue, scope.decimalSeparator); 
 
 							scope.amount = valueResult;	
