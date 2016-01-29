@@ -24,7 +24,7 @@ Array.prototype.contains = function(value){
         return false;
     
     return this.indexOf(value) >= 0;
-}
+};
 
 
 //http://tylermcginnis.com/angularjs-factory-vs-service-vs-provider/
@@ -32,27 +32,8 @@ Array.prototype.contains = function(value){
 
 app.factory("CalculatorService", function(){    
     
-<<<<<<< HEAD
-    // inspired by: http://mathjs.org/examples/browser/custom_separators.html.html
-
-    this.parse = function(text, decimalSeparator){
-        // replace the custom separators in the input with the default separators
-        var argsSeparator = ";";
-        return parseFloat(text
-            .replace(new RegExp('\\' + decimalSeparator + '|\\' + argsSeparator, 'g'), function (match) {                
-                return match == decimalSeparator ? '.': ',';
-            })
-        );    
-    };
-
-    this.render = function(value, decimalSeparator){
-        //if(decimalSeparator === undefined) throw Error('"decimalSeparator" parameter is missing');
-        decimalSeparator = decimalSeparator || ".";
-        return value.toString().replace(".", decimalSeparator);
-=======
     var operators = ["+", "-", "*", "/"];
-    
-           
+               
     /**
      * Serch in the text for values and operation signs and return that list.
      * 
@@ -61,7 +42,7 @@ app.factory("CalculatorService", function(){
      * @return {Array} This is an Array of founded values and operation.
      *  
      */
-    recognizeValues = function(text, decimalSeparator) {
+    this.recognizeValues = function(text, decimalSeparator) {
     
         var values = [];   
 
@@ -87,7 +68,6 @@ app.factory("CalculatorService", function(){
                 if(i == text.length-1) values.push(currentValue);        
             }
             else {
-                //console.log("invalid: " + char + "("+ char.charCodeAt(0) +")");
                 throw Error("Invalid character: \"" + char + "\".");            
             }                     
         }
@@ -95,17 +75,16 @@ app.factory("CalculatorService", function(){
         return values;
     };
     
-    sum = function(n1, n2) {    
+    this.sum = function(n1, n2) {    
         return n1+n2;
     };
 
-    subtract = function(n1, n2) {    
+    this.subtract = function(n1, n2) {    
         return n1-n2;
->>>>>>> 3188b0bd066ccf8ccf3917b0a61221381409e65f
     };
 
     
-    parseValue = function(input, decimalSeparator){
+    this.parseValue = function(input, decimalSeparator){
         var value = input.replace(decimalSeparator, ".");
         try {
             return parseFloat(value);
@@ -121,25 +100,27 @@ app.factory("CalculatorService", function(){
     
     service.this = this;   // expse internal implementation hidden by closure
         
+    var _ = this;
+                
     /**
      * Evaluates the given expression and return the result.
      * It uses the given decimals separator to evaluate and to format the result.
      * @return the evaluation result, as a string formatted with the decimal separator passed.
      */
     service.eval = function(text, decimalSeparator){
-        var values = recognizeValues(text);
+        var values = _.recognizeValues(text);
         var n1, n2, operator;
     
         while(values.length > 1)
         {
-            n1 = parseValue(values[0]);
-            n2 = parseValue(values[2]);
+            n1 = _.parseValue(values[0]);
+            n2 = _.parseValue(values[2]);
             operator = values[1];
                 
             var operationToDo = null;
             switch (operator) {
-                case "+": operationToDo = sum; break;
-                case "-": operationToDo = subtract; break;
+                case "+": operationToDo = _.sum; break;
+                case "-": operationToDo = _.subtract; break;
                 default: throw new Error('Unknown or unhandled operator: "' + operator + '".');
             }
 
@@ -153,4 +134,4 @@ app.factory("CalculatorService", function(){
     
     return service; 
                
-})
+});
