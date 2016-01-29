@@ -46,5 +46,27 @@ describe("Service: CalculatorService", function(){
             
     });           
 
+    describe("* Internal Functions *", function(){
+        
+        describe("recognizeValues()", function(){
+            
+            it("should exists", function(){
+                expect(service.this.recognizeValues).toBeDefined();                
+            });
+            
+            helper.executeTestCases({
+                description: 'given the input "#input" should return "[#result]"',
+                test: function(input, result){
+                    var values = service.this.recognizeValues(input);
+                    expect(values).toEqual(result);
+                },
+                cases: [
+                    { input: 1, result:[1]}
+                ]
+            });
+            
+        });
+        
+    });
     
 });
