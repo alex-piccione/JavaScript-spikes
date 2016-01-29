@@ -20,7 +20,7 @@ if(!app) throw Error("app is undefined here?");
 
 Array.prototype.contains = function(value){    
     
-    if(value === undefined)
+    if(typeof(value) == "undefined")
         return false;
     
     return this.indexOf(value) >= 0;
@@ -44,7 +44,10 @@ app.factory("CalculatorService", function(){
      */
     this.recognizeValues = function(text, decimalSeparator) {
     
-        if (!decimalSeparator || decimalSeparator == null) throw Error('"decimalSeparator" parameter must be defined.');
+        if (!decimalSeparator) throw Error('"decimalSeparator" parameter must be defined.');
+    
+        // must be a string or "in" not work. PAssing from a function to another type is not mintained
+        text = text.toString();   
     
         var values = [];   
 
@@ -131,7 +134,7 @@ app.factory("CalculatorService", function(){
 
             values = values.splice(2); // remove first 2 values
             values[0] = operationToDo(n1, n2);
-        }        
+        }      
             
         var resultValue = values[0].toString();
         if (decimalSeparator != ".")
