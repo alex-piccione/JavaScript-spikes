@@ -44,6 +44,8 @@ app.factory("CalculatorService", function(){
      */
     this.recognizeValues = function(text, decimalSeparator) {
     
+        if (!decimalSeparator || decimalSeparator == null) throw Error('"decimalSeparator" parameter must be defined.');
+    
         var values = [];   
 
         var currentValue = null;
@@ -68,7 +70,7 @@ app.factory("CalculatorService", function(){
                 if(i == text.length-1) values.push(currentValue);        
             }
             else {
-                throw Error("Invalid character: \"" + char + "\".");            
+                throw Error('Invalid character: "' + char + '".');            
             }                     
         }
         

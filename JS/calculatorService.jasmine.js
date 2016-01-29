@@ -54,14 +54,29 @@ describe("Service: CalculatorService", function(){
                 expect(service.this.recognizeValues).toBeDefined();                
             });
             
+            it("when decimals separator is missing, should raise an error", function(){
+                
+                var f = function() {
+                    service.this.recognizeValues("1+2" /* missing parameter */);
+                };
+                
+                expect(f).toThrowError();            
+            });
+            
             helper.executeTestCases({
-                description: 'given the input "#input" should return "[#result]"',
-                test: function(input, result){
-                    var values = service.this.recognizeValues(input);
+                description: 'given the text "#text" and the decimals separator "#sep" should return "[#result]"',
+                test: function(text, sep, result){
+                    var values = service.this.recognizeValues(text, sep);
                     expect(values).toEqual(result);
                 },
                 cases: [
-                    { input: 1, result:[1]}
+                      { text: "1",      sep: ".", result:["1"]}
+                    , { text: " 1",     sep: ".", result:["1"]},
+                    , { text: "1+2",    sep: ".", result:["1", "+", "2"]}
+                    , { text: "1+2-3",  sep: ".", result:["1", "+", "2", "-", "3"]}
+                    , { text: "1.2+3",  sep: ".", result:["1.2", "+", "3"]}
+                    
+                    , { text: "1,2+3",  sep: ",", result:["1,2", "+", "3"]}
                 ]
             });
             
