@@ -110,7 +110,10 @@ app.factory("CalculatorService", function(){
      * @return the evaluation result, as a string formatted with the decimal separator passed.
      */
     service.eval = function(text, decimalSeparator){
-        var values = _.recognizeValues(text);
+        
+        decimalSeparator = decimalSeparator || ".";
+        
+        var values = _.recognizeValues(text, decimalSeparator);
         var n1, n2, operator;
     
         while(values.length > 1)
@@ -131,7 +134,9 @@ app.factory("CalculatorService", function(){
         }        
             
         var resultValue = values[0].toString();
-        return resultValue.replace(".", decimalSeparator);
+        if (decimalSeparator != ".")
+            resultValue = resultValue.replace(".", decimalSeparator);
+        return resultValue;
     };  
     
     return service; 
