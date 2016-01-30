@@ -77,6 +77,17 @@ console.log(input);
             expect(resultHtml).toContain("placeholder=");            
         });
         
+        it('if "amount" attribute is missing it should raise an error', function(){
+                        
+            html = '<spike:amount-field placeholder="0.00" decimal-separator="." />';
+                        
+            var f = function(){
+                $compile(html)($rootScope);     
+            };
+            
+            expect(f).toThrowError();
+        });
+        
     });
     
     

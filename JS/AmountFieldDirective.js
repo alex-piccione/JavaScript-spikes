@@ -52,8 +52,8 @@ console.log("eval: " + value);
     };
     
 	directive.link = function(scope, element, attr){
-		//scope.id = "spikeAmountField_" + Math.floor(Math.random()*1000000);
-
+        if(!attr.amount) throw Error('"amount" attribute is missing.');       
+      
         // scope is not directive.scope;
 
 		scope.$watch( function(scope_) {return scope_.amount}, function(newValue, oldValue){            
