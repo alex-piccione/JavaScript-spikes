@@ -39,7 +39,9 @@ describe("Directive: SpikeAmountField", function() {
         
     function checkValueAfterAWhile(html, input, expectedValue, done){
         
-        element = $compile(html)(controllerScope);  
+        $compile(html)(controllerScope);  
+        controllerScope.amountValue = input;        
+        
         var field = element.find("input");
         if(field.length == 0) throw new Error('<input> field not found. Check element declaration syntax (es. "spike:amount-field").');
         field = $(field[0]);
@@ -63,11 +65,6 @@ describe("Directive: SpikeAmountField", function() {
         controller = $controller("SpikeController", {
             $scope: controllerScope
         });
-
-        /*controller = $controller( function(){
-            this.$scope = controllerScope;
-            this.$scope.amountValue = 1;  
-        });*/
         
         CalculatorService = _CalculatorService_;
         
@@ -147,16 +144,15 @@ describe("Directive: SpikeAmountField", function() {
     });
    
         
-    describe("when the input is an integer (126)", function(){          
+    describe("when the input is an integer (like 126)", function(){          
         
         var html = '<spike:amount-field amount="amount" />';           
-        var input = 126;
+        var input = 126;  
         var expectedResult = input.toString();
 
         it("the result should be the same integer", function(done){
             checkValueAfterAWhile(html, input, expectedResult, done); 
-        }); 
-                    
+        });         
     });
         
         
