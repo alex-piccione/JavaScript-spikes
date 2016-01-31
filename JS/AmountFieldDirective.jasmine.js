@@ -4,14 +4,14 @@
 
 // // http://www.sitepoint.com/angular-testing-tips-testing-directives/
 
-var _el;
-var _el2;
+var c;
 
 describe("Directive: SpikeAmountField", function() {
    
     var html;  
     var $compile;
     var $rootScope;
+    var controller;
     var element;
     var scope;
     var CalculatorService;
@@ -24,25 +24,25 @@ describe("Directive: SpikeAmountField", function() {
     //var html = "<spike:amount_field />";  // ok
           
    
-    function compileElement(html, $compile, $rootScope) {        
-       
+    function compileElement(html, $compile, $rootScope) {    
+ 
         element = $compile(html)($rootScope);
       
         // children() is needed because directive does not use "replace" 
         // (children() works also with "replace" but not for directive inside another directive)
         scope = element.children().isolateScope(); 
         
-        $rootScope.$digest();        
+        $rootScope.$digest();      
     }; 
      
         
     function checkValueAfterAWhile(html, input, expectedValue, done){
+        
         element = $compile(html)($rootScope);  
         var field = element.find("input");
         if(field.length == 0) throw new Error('<input> field not found. Check element declaration syntax (es. "spike:amount-field").');
         field = $(field[0]);
         if(field.prop("tagName") !== "INPUT") throw new Error('Field is not an <input>. Field: "' + field.prop("tagName") + '".');
-console.log(input);
         
         $rootScope.$apply();              
                 
@@ -50,16 +50,21 @@ console.log(input);
             expect(field).toHaveValue(expectedValue);
             done();
         }, waitForCalculate + 10);  
-    };         
+    };   
+          
       
-    beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _CalculatorService_){
+    beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, $controller, _CalculatorService_){
         // the injector unwraps the underscore (_) from around the parameter names when matching
         $compile = _$compile_;
-        $rootScope = _$rootScope_;	        
-        //$rootScope = _$rootScope_.$new();
+        //$rootScope = _$rootScope_;	        
+        $rootScope = _$rootScope_.$new();
+c = $controller;
+        /*controller = $controller("SpikeController", {
+            $scope: $rootScope            
+        });*/
         CalculatorService = _CalculatorService_;
         
-        html = "<div>Amount: <spike:amount-field placeholder=\"0.00\" decimal-separator=\"'.'\" thousand-separator=\".\" amount=\"amountValue\" ></spike:amount-field></div>";
+        html = "<div>Amount: <spike:amount-field placeholder=\"0.00\" decimal-separator=\"'.'\" thousand-separator=\",\" amount=\"amountValue\" ></spike:amount-field></div>";
         compileElement(html, $compile, $rootScope);        
     }));
 
@@ -80,7 +85,9 @@ console.log(input);
         it('if "amount" attribute is missing it should raise an error', function(){
                         
             html = '<spike:amount-field placeholder="0.00" decimal-separator="." />';
-                        
+                   
+                   
+                   
             var f = function(){
                 $compile(html)($rootScope);     
             };
@@ -103,6 +110,20 @@ console.log(input);
             expect(scope.$emit).toHaveBeenCalled();            
         });        
     });
+            
+    describe("when the amount change in the controller the event is propagated", function(){
+        it("should be notified", function(){                        
+           
+            spyOn(scope, "$emit");
+            
+            //scope.amount = 1.23;
+            controller.amountValue = 1.23;
+            $rootScope.$digest();
+            
+            expect(scope.$emit).toHaveBeenCalled();            
+        });        
+    });
+    
         
     describe("when the rootSCope.amount changes and there is something to evaluate", function(){        
                 
