@@ -38,6 +38,7 @@ app.directive("spikeAmountField", function(CalculatorService){
                 var valueResult = null;
                 try 
                 {                        
+                    alert(scope.decimalSeparator);
                     valueResult = CalculatorService.eval(value, scope.decimalSeparator); 
 
                     scope.amount = valueResult;	
@@ -68,7 +69,7 @@ console.log("amount: " + newValue);
 		$(field).on("keyup", function(event){	
 console.log("keyup: " + event.keyCode);
 			if(event.keyCode == 13) // return
-                directive.eval( field.val(), scope );
+                directive.eval( field.val(), directive.scope);
         });	
 			
 	};

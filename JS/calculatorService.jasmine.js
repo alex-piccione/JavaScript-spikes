@@ -77,6 +77,7 @@ describe("Service: CalculatorService", function(){
                     , { text: "1.2+3",  sep: ".", result:["1.2", "+", "3"]}
                     
                     , { text: "1,2+3",  sep: ",", result:["1,2", "+", "3"]}
+                    , { text: "123,45 + 10,5",  sep: ",", result:["123,45", "+", "10,5"]}
                 ]
             });
             
