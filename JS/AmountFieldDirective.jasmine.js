@@ -101,40 +101,24 @@ describe("Directive: SpikeAmountField", function() {
         });
         
     });
-    
-    
-    describe("when the rootScope.amount change the event is propagated", function(){
-        it("should be notified", function(){                        
-           
-            spyOn(scope, "$emit");
-            
-            scope.amount = 1.23;
-            //$rootScope.amount = 1.23;
-            controllerScope.$digest();
-            
-            expect(scope.$emit).toHaveBeenCalled();            
-        });        
-    });
+        
             
     describe("when the amount change in the controller the event is propagated", function(){
-        it("should be notified", function(){                        
-           
-            spyOn(scope, "$emit");
-            
-            //scope.amount = 1.23;
-            controller.amountValue = 1.23;
+        it("should be notified", function(){  
+            spyOn(scope, "$emit");            
+      
+            controllerScope.amountValue = 1.23
             controllerScope.$digest();
             
-            expect(scope.$emit).toHaveBeenCalled();            
+            expect(scope.$emit).toHaveBeenCalledWith("eval");                        
         });        
     });
     
         
     describe("when the rootSCope.amount changes and there is something to evaluate", function(){        
                 
-        var input = "1 + 2"; // something that must be evaluate            
-        
-         
+        var input = "1 + 2"; // something that must be evaluate           
+                 
         it("should notify and give the value", function(done){  
             scope.$on("evaluate", function(event, data){              
                expect(data.text).toBeDefined();

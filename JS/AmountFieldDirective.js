@@ -22,19 +22,19 @@ app.directive("spikeAmountField", function(CalculatorService){
     directive.waitForCalculate = waitForCalculate; // time of inactivity after which the evaluation start (milliseconds)
     directive.isEvaluating = false;
     
-    directive.eval = function(value, scope){       
-
-        scope.$emit("eval!");
+    directive.eval = function(value, scope)
+    {       
+        scope.$emit("eval");
                         
         directive.isEvaluating && clearTimeout(directive.isEvaluating); // stop evaluating				
                         
         // contains something different from digits or decimal separator?
         if ((value+"").match(/[^\d,.]/g))
-        {	
-            directive.isEvaluating = setTimeout( function(){
+        {	            
+            scope.$emit("evaluate", {text: value});
             
-                scope.$emit("evaluate", {text: value});                
-console.log("eval: " + value);                                            
+            directive.isEvaluating = setTimeout( function()
+            {                     
                 var valueResult = null;
                 try 
                 {                        
@@ -51,13 +51,14 @@ console.log("eval: " + value);
         };
     };
     
-	directive.link = function(scope, element, attr){
+	directive.link = function(scope, element, attr)
+    {
         if(!attr.amount) throw Error('"amount" attribute is missing.');       
       
         // scope is not directive.scope;
 
-		scope.$watch( function(scope_) {return scope_.amount}, function(newValue, oldValue){            
-console.log("eval: " + newValue);      
+		scope.$watch( function(scope_) {return scope_.amount}, function(newValue, oldValue){  
+console.log("amount: " + newValue);
 			 if(newValue !== oldValue)
                 directive.eval(newValue, scope);		
 		})	
