@@ -37,11 +37,11 @@ describe("Directive: SpikeAmountField", function() {
     }; 
      
         
-    function checkValueAfterAWhile(customHtml, html, input, expectedValue, done){
+    function checkValueAfterAWhile(html, input, expectedValue, done){
                 
-alert(customHtml);
-alert(html);   
-        $compile(customHtml)(controllerScope);  
+//alert(customHtml);
+//alert(html);   
+        $compile(html)(controllerScope);  
         
         var field = element.find("input");
         if(field.length == 0) throw new Error('<input> field not found. Check element declaration syntax (es. "spike:amount-field").');
@@ -99,6 +99,21 @@ alert(html);
             };
             
             expect(f).toThrowError();
+        });
+        
+        describe('and "decimal-separator" attibute is set as ","', function(){
+            var customHtml = '<spike:amount-field amount="1" decimal-separator="," >';
+                        
+            it('scope.decimalSeparator should exists', function(){
+                compileElement(customHtml);
+                expect(scope.decimalSeparator).toBeDefined();                
+            });
+            
+            it('scope.decimalSeparator should be ","', function(){
+                compileElement(customHtml);
+                expect(scope.decimalSeparator).toEqual(",");                
+            });
+            
         });
         
     });

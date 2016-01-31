@@ -14,9 +14,9 @@ app.directive("spikeAmountField", function(CalculatorService){
 	};
 	        
 	directive.scope = {
-		amount: "=amount",
-		placeholder: "=placeholder",
-		decimalSeparator: "="        
+		amount: "=amount", // bind to "amount! attribute
+		placeholder: "=", // bind to "placeholder" attribute
+		decimalSeparator: "="   // bind to "decimal-separator" attribute     
 	};
     
     directive.waitForCalculate = waitForCalculate; // time of inactivity after which the evaluation start (milliseconds)
