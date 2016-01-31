@@ -4,17 +4,18 @@
 
 // // http://www.sitepoint.com/angular-testing-tips-testing-directives/
 
-var c;
-
 describe("Directive: SpikeAmountField", function() {
    
     var html;  
     var $compile;
     var $rootScope;
     var controller;
+    var controllerScope;
     var element;
     var scope;
     var CalculatorService;
+    
+    app.controller("SpikeController", function($scope) {  });
           
     //var html = "<spikeAmountField />";    // not recognized
     //var html = "<SpikeAmountField />";    // not recognized        
@@ -24,27 +25,27 @@ describe("Directive: SpikeAmountField", function() {
     //var html = "<spike:amount_field />";  // ok
           
    
-    function compileElement(html, $compile, $rootScope) {    
+    function compileElement(html) {    
  
-        element = $compile(html)($rootScope);
-      
+        element = $compile(html)(controllerScope);
+
         // children() is needed because directive does not use "replace" 
         // (children() works also with "replace" but not for directive inside another directive)
         scope = element.children().isolateScope(); 
         
-        $rootScope.$digest();      
+        controllerScope.$digest();      
     }; 
      
         
     function checkValueAfterAWhile(html, input, expectedValue, done){
         
-        element = $compile(html)($rootScope);  
+        element = $compile(html)(controllerScope);  
         var field = element.find("input");
         if(field.length == 0) throw new Error('<input> field not found. Check element declaration syntax (es. "spike:amount-field").');
         field = $(field[0]);
         if(field.prop("tagName") !== "INPUT") throw new Error('Field is not an <input>. Field: "' + field.prop("tagName") + '".');
         
-        $rootScope.$apply();              
+        controllerScope.$apply();              
                 
         setTimeout(function(){
             expect(field).toHaveValue(expectedValue);
@@ -55,17 +56,23 @@ describe("Directive: SpikeAmountField", function() {
       
     beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, $controller, _CalculatorService_){
         // the injector unwraps the underscore (_) from around the parameter names when matching
-        $compile = _$compile_;
-        //$rootScope = _$rootScope_;	        
-        $rootScope = _$rootScope_.$new();
-c = $controller;
-        /*controller = $controller("SpikeController", {
-            $scope: $rootScope            
+        $compile = _$compile_;	        
+        $rootScope = _$rootScope_;
+        controllerScope = $rootScope.$new();
+                       
+        controller = $controller("SpikeController", {
+            $scope: controllerScope
+        });
+
+        /*controller = $controller( function(){
+            this.$scope = controllerScope;
+            this.$scope.amountValue = 1;  
         });*/
+        
         CalculatorService = _CalculatorService_;
         
         html = "<div>Amount: <spike:amount-field placeholder=\"0.00\" decimal-separator=\"'.'\" thousand-separator=\",\" amount=\"amountValue\" ></spike:amount-field></div>";
-        compileElement(html, $compile, $rootScope);        
+        compileElement(html);        
     }));
 
 
@@ -85,11 +92,9 @@ c = $controller;
         it('if "amount" attribute is missing it should raise an error', function(){
                         
             html = '<spike:amount-field placeholder="0.00" decimal-separator="." />';
-                   
-                   
-                   
+                                      
             var f = function(){
-                $compile(html)($rootScope);     
+                $compile(html)(controllerScope);     
             };
             
             expect(f).toThrowError();
@@ -105,7 +110,7 @@ c = $controller;
             
             scope.amount = 1.23;
             //$rootScope.amount = 1.23;
-            $rootScope.$digest();
+            controllerScope.$digest();
             
             expect(scope.$emit).toHaveBeenCalled();            
         });        
@@ -118,7 +123,7 @@ c = $controller;
             
             //scope.amount = 1.23;
             controller.amountValue = 1.23;
-            $rootScope.$digest();
+            controllerScope.$digest();
             
             expect(scope.$emit).toHaveBeenCalled();            
         });        
@@ -138,7 +143,7 @@ c = $controller;
             });
                         
             scope.amount = input; 
-            $rootScope.$digest();            
+            controllerScope.$digest();            
         });
         
         it("should call CalculatorService.eval() after some time", function(done){
@@ -146,7 +151,7 @@ c = $controller;
             spyOn(CalculatorService, "eval");
             
             scope.amount = input; 
-            $rootScope.$digest();  
+            controllerScope.$digest();  
             
             setTimeout(function(){  
                 expect(CalculatorService.eval).toHaveBeenCalled();    
@@ -158,9 +163,8 @@ c = $controller;
     });
    
         
-    describe("when the input is an integer (126)", function(){
-          
-        $rootScope.amount = 22;
+    describe("when the input is an integer (126)", function(){          
+        
         var html = '<spike:amount-field amount="amount" />';           
         var input = 126;
         var expectedResult = input.toString();
@@ -176,7 +180,7 @@ c = $controller;
         
         describe("when the input is a sum of two integers (123+2)", function(){
                 
-            var html = "<spike-Amount-Field>";
+            var html = "<spike-Amount-Field amount=123 >";
             var input = "123+20";
             var expectedResult = 143;
 
@@ -190,7 +194,7 @@ c = $controller;
         describe('when decimals separator is "."', function(){ 
             describe('and input is "123.45"', function(){
             
-                var html = "<spike:Amount-Field decimalSeparator=\"en\">";
+                var html = '<spike:Amount-Field decimalSeparator="en" amount="123">';
                 var input = "123.45";
                 var expectedResult = "123.45";            
 

@@ -7,7 +7,7 @@ var config = {
 
 beforeEach(function(){
 
-    module("test");    // this is angular.mock.module(), not angular.module() !!!   
+    module("test");    // this is angular.mock.module(), not angular.module() !!!
 
 });	
 
