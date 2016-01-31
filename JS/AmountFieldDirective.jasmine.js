@@ -40,14 +40,14 @@ describe("Directive: SpikeAmountField", function() {
     function checkValueAfterAWhile(html, input, expectedValue, done){
         
         $compile(html)(controllerScope);  
-        controllerScope.amountValue = input;        
         
         var field = element.find("input");
         if(field.length == 0) throw new Error('<input> field not found. Check element declaration syntax (es. "spike:amount-field").');
         field = $(field[0]);
         if(field.prop("tagName") !== "INPUT") throw new Error('Field is not an <input>. Field: "' + field.prop("tagName") + '".');
         
-        controllerScope.$apply();              
+        controllerScope.amountValue = input;       
+        controllerScope.$digest();              
                 
         setTimeout(function(){
             expect(field).toHaveValue(expectedValue);
@@ -174,11 +174,11 @@ describe("Directive: SpikeAmountField", function() {
         describe('when decimals separator is "."', function(){ 
             describe('and input is "123.45"', function(){
             
-                var html = '<spike:Amount-Field decimalSeparator="en" amount="123">';
+                var html = '<spike:Amount-Field decimalSeparator="." amount="123">';
                 var input = "123.45";
                 var expectedResult = "123.45";            
 
-                it('the result should be "123.45"', function(done){
+                it('the result value should be "123.45"', function(done){
                     checkValueAfterAWhile(html, input, expectedResult, done);                    
                 }); 
             });
@@ -186,8 +186,25 @@ describe("Directive: SpikeAmountField", function() {
         });  
         
         describe('when decimals sparator is ","', function(){
+            
+            var html = '<spike:Amount-Field decimalSeparator="," amount="amountValue" >';
+            
             describe('and input is "123,45"', function(){
-                // todo: to be implemented
+                var input = "123,45";
+                var expectedResult = "123,45";
+                
+                it('the result value should be 123,45', function(done){
+                    checkValueAfterAWhile(html, input, expectedResult, done);
+                });
+            }); 
+            
+            describe('and input is "123,45 + 10,5"', function(){
+                var input = "123,45 + 10,5";
+                var expectedResult = "113,95";
+                
+                it('the result value should be 113,95', function(done){
+                    checkValueAfterAWhile(html, input, expectedResult, done);
+                });
             });   
         });
     
