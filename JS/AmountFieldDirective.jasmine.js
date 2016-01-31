@@ -102,7 +102,7 @@ describe("Directive: SpikeAmountField", function() {
         });
         
         describe('and "decimal-separator" attibute is set as ","', function(){
-            var customHtml = '<spike:amount-field amount="1" decimal-separator="," >';
+            var customHtml = '<spike:amount-field amount="1" decimal-separator="\',\'" >';
                         
             it('scope.decimalSeparator should exists', function(){
                 compileElement(customHtml);

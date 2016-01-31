@@ -38,7 +38,7 @@ app.directive("spikeAmountField", function(CalculatorService){
                 var valueResult = null;
                 try 
                 {                        
-                    alert(scope.decimalSeparator);
+console.log("separator: " + scope.decimalSeparator);
                     valueResult = CalculatorService.eval(value, scope.decimalSeparator); 
 
                     scope.amount = valueResult;	
