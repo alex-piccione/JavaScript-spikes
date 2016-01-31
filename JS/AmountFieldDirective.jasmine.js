@@ -107,7 +107,7 @@ describe("Directive: SpikeAmountField", function() {
         it("should be notified", function(){  
             spyOn(scope, "$emit");            
       
-            controllerScope.amountValue = 1.23
+            controllerScope.amountValue = 1.23;
             controllerScope.$digest();
             
             expect(scope.$emit).toHaveBeenCalledWith("eval");                        
@@ -115,7 +115,7 @@ describe("Directive: SpikeAmountField", function() {
     });
     
         
-    describe("when the rootSCope.amount changes and there is something to evaluate", function(){        
+    describe("when the directive amount changes and there is something to evaluate", function(){        
                 
         var input = "1 + 2"; // something that must be evaluate           
                  
