@@ -102,7 +102,8 @@ describe("Directive: SpikeAmountField", function() {
         });
         
         describe('and "decimal-separator" attibute is set as ","', function(){
-            var customHtml = '<spike:amount-field amount="1" decimal-separator="\',\'" >';
+//            var customHtml = '<spike:amount-field amount="1" decimal-separator="&apos;,&apos;" >';
+            var customHtml = "<spike:amount-field amount='1' decimal-separator='\",\"' >";
                         
             it('scope.decimalSeparator should exists', function(){
                 compileElement(customHtml);
@@ -206,14 +207,14 @@ describe("Directive: SpikeAmountField", function() {
         
         describe('when decimals sparator is ","', function(){
             
-            var customHtml = '<spike:Amount-Field decimalSeparator="," amount="amountValue" >';
+            var html = '<spike:Amount-Field decimalSeparator="," amount="amountValue" >';
             
             describe('and input is "123,45"', function(){
                 var input = "123,45";
                 var expectedResult = "123,45";
                 
                 it('the result value should be 123,45', function(done){
-                    checkValueAfterAWhile(_html, input, expectedResult, done);
+                    checkValueAfterAWhile(input, expectedResult, done);
                 });
             }); 
             
@@ -222,7 +223,7 @@ describe("Directive: SpikeAmountField", function() {
                 var expectedResult = "113,95";
                 
                 it('the result value should be 113,95', function(done){
-                    checkValueAfterAWhile(customHtml, html, input, expectedResult, done);
+                    checkValueAfterAWhile(html, input, expectedResult, done);
                 });
             });   
         });
