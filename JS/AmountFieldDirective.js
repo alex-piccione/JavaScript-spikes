@@ -25,7 +25,7 @@ app.directive("spikeAmountField", function(CalculatorService){
     directive.eval = function(value, scope)
     {       
         scope.$emit("eval");
-                        
+//console.log("eval");                       
         directive.isEvaluating && clearTimeout(directive.isEvaluating); // stop evaluating				
                         
         // contains something different from digits or decimal separator?

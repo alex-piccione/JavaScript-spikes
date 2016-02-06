@@ -38,9 +38,10 @@ describe("Service: CalculatorService", function(){
                 expect(service.eval(value, sep)).toEqual(result);                
             },
             cases: [
-                  { value: "1+2", sep: ".", result: "3"}
-                , { value: "10-3", sep: ".", result: "7"}
-                , { value: "123+2", sep: ".", result: "125"}                
+                  { value: "1+2",           sep: ".", result: "3"}
+                , { value: "10-3",          sep: ".", result: "7"}
+                , { value: "123+2",         sep: ".", result: "125"}    
+                , { value: "123,45 + 10,5", sep: ",", result: "133,95"}            
             ]
         });
             
